@@ -1,28 +1,80 @@
 import React from 'react'
-import {Text, View, StyleSheet, Image} from 'react-native'
+import {Text, View, StyleSheet} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 
 export default function PostList ({files}){
     return (
         <>
             {files.map((file) => (
+                !file.data.is_self ? (
                 <Card
                     title={file.data.title}
-                    titleStyle={{marginHorizontal:10}}
+                    titleStyle={{
+                        marginHorizontal:15, 
+                        textAlign:'left',
+                        fontSize: 18,
+                        marginBottom:10
+                    }}
+                    dividerStyle={{
+                        marginBottom:5
+                    }}
+                    image={{
+                        uri:file.data.thumbnail
+                    }}
+                    imageStyle={{
+                        height:file.data.thumbnail_height,
+                        marginBottom:10
+                    }}
                     key={file.data.name}
-                    >
+                >
                     {file.data.selftext!=""?
                     <View style={styles.selfText}>
-                        <Text style={{ marginHorizontal:10}}>{file.data.selftext}</Text>
+                        <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
                     </View>
                     : null }
-                    <View style={styles.statusRow}>
-                        <Icon name='arrow-up' type='feather' size={15} style={{textAlign:'left'}}/>
-                        <Text> {file.data.score} points  </Text>
-                        <Icon name='comment-o' type='font-awesome' size={15} style={{textAlign:'left'}}/>
-                        <Text> {file.data.num_comments} comments</Text>
+                    <View style={styles.postInfo}>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
+                        <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>
                     </View>
-                </Card>
+                    <View style={styles.statusRow}>
+                        <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                        <Text style={{color:'gray'}}> {file.data.score} points  </Text>
+                        <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
+                        <Text style={{color:'gray'}}> {file.data.num_comments} comments</Text>
+                    </View>
+                </Card>):(
+                <Card
+                title={file.data.title}
+                titleStyle={{
+                    marginHorizontal:0, 
+                    textAlign:'left',
+                    fontSize: 18,
+                    marginBottom:10
+                }}
+                dividerStyle={{
+                    marginBottom:5
+                }}
+                key={file.data.name}
+            >
+                {file.data.selftext!=""?
+                <View style={styles.selfText}>
+                    <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
+                </View>
+                : null }
+                <View style={styles.postInfo}>
+                    <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
+                    <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                    <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>
+                </View>
+                <View style={styles.statusRow}>
+                    <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                    <Text style={{color:'gray'}}> {file.data.score} points  </Text>
+                    <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
+                    <Text style={{color:'gray'}}> {file.data.num_comments} comments</Text>
+                </View>
+            </Card>
+                )
             ))}
         </>
     );
@@ -33,14 +85,20 @@ const styles = StyleSheet.create({
         
     },
     selfText:{
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: '#c5d2e0',
         borderBottomWidth: 1, 
-        paddingBottom:15,
+        paddingVertical:10,
         marginBottom:10
     },
     statusRow:{
         flex:1, 
         flexDirection:'row', 
         alignItems:'center'
+    },
+    postInfo:{
+        flex: 1,
+        flexDirection: 'row',
+        marginBottom: 8,
+        marginHorizontal: 5
     }
 })

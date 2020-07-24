@@ -6,11 +6,15 @@ export default class Home extends Component{
     constructor(props){
         super(props)
         this.state ={
+            subreddits:['dataisbeautiful','wallpapers','askreddit'],
             files:[]
         }
     }
+
     componentDidMount(){
-        fetch('https://www.reddit.com/hot.json')
+        const substring = this.state.subreddits.join('+')
+        const subred = (this.state.subreddits.length !== 0? 'r/' : 'best')+substring
+        fetch('https://www.reddit.com/'+subred+'.json')
         .then(res=>res.json())      
         .then((data) => {
         this.setState({ files: data.data.children })
