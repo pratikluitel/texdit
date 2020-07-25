@@ -4,10 +4,10 @@ import { Card, Icon } from 'react-native-elements';
 
 export default function Comments(props){
     const post = props.route.params.file
-    console.log(post)
+    const image = typeof(post.preview.images) != 'undefined' ?post.preview.images[0].resolutions[post.preview.images[0].resolutions.length-1]:null
     return( <ScrollView>
                 {
-                    !post.is_self ? (
+                    typeof(post.preview.images) != 'undefined' ? (
                         <Card
                             title={post.title}
                             titleStyle={{
@@ -20,10 +20,12 @@ export default function Comments(props){
                                 marginBottom:5
                             }}
                             image={{
-                                uri:post.thumbnail
+                                uri: image.url.replaceAll('&amp;','&')
                             }}
                             imageStyle={{
-                                height:post.thumbnail_height,
+                                resizeMode:'cover',
+                                width: '100%',
+                                height:image.height/image.width*(innerWidth-40),
                                 marginBottom:10
                             }}
                             key={post.name}
@@ -59,7 +61,7 @@ export default function Comments(props){
                             marginBottom:5
                         }}
                         key={post.name}
-                    >
+                        >
                         {post.selftext!=""?
                         <View style={styles.selfText}>
                             <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{post.selftext}</Text>
@@ -77,7 +79,7 @@ export default function Comments(props){
                             <Text style={{color:'gray'}}> {post.num_comments} comments</Text>
                         </View>
                     </Card>
-                )
+                    )
 
                 }
             </ScrollView>
