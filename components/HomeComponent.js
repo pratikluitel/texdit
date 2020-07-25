@@ -24,7 +24,8 @@ export default class Home extends Component{
     render(){
         return(
             <ScrollView>
-                <PostList files = {this.state.files}/>
+                <PostList files = {this.state.files} 
+                navigation={this.props.navigation}/>
             </ScrollView>
         )
     }

@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, View, StyleSheet} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 
-export default function PostList ({files}){
+export default function PostList ({files, navigation}){
     return (
         <>
             {files.map((file) => (
@@ -40,23 +40,25 @@ export default function PostList ({files}){
                     <View style={styles.statusRow}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {file.data.score} points  </Text>
-                        <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
-                        <Text style={{color:'gray'}}> {file.data.num_comments} comments</Text>
+                        <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
+                            onPress={()=>{navigation.navigate('Comments',{file: file.data})}}/>
+                        <Text style={{color:'gray'}}
+                            onPress={()=>{navigation.navigate('Comments',{file: file.data})}}> {file.data.num_comments} comments</Text>
                     </View>
                 </Card>):(
                 <Card
-                title={file.data.title}
-                titleStyle={{
-                    marginHorizontal:0, 
-                    textAlign:'left',
-                    fontSize: 18,
-                    marginBottom:10
-                }}
-                dividerStyle={{
-                    marginBottom:5
-                }}
-                key={file.data.name}
-            >
+                    title={file.data.title}
+                    titleStyle={{
+                        marginHorizontal:0, 
+                        textAlign:'left',
+                        fontSize: 18,
+                        marginBottom:10
+                    }}
+                    dividerStyle={{
+                        marginBottom:5
+                    }}
+                    key={file.data.name}
+                >
                 {file.data.selftext!=""?
                 <View style={styles.selfText}>
                     <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
@@ -70,8 +72,10 @@ export default function PostList ({files}){
                 <View style={styles.statusRow}>
                     <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                     <Text style={{color:'gray'}}> {file.data.score} points  </Text>
-                    <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
-                    <Text style={{color:'gray'}}> {file.data.num_comments} comments</Text>
+                    <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
+                    onPress={()=>{navigation.push('Comments',{file: file.data})}}/>
+                    <Text style={{color:'gray'}}
+                    onPress={()=>{navigation.push('Comments',{file: file.data})}}> {file.data.num_comments} comments</Text>
                 </View>
             </Card>
                 )

@@ -6,7 +6,7 @@ Currently fetches only the default/best page. Subreddits can be added to the sub
 
 Doesn't fetch full pictures yet (it was too slow). Only the thumbnail. The goal was to only fetch the text post (as indicated by the name of this app, but ehh why not)
 
-![Image of app](https://i.imgur.com/zMnf3jJ.jpg)
+![Image of app](https://i.imgur.com/jpuuPvS.png)
 
 ---
 
