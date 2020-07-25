@@ -1,11 +1,15 @@
 import React from 'react'
-import {Text, View, StyleSheet} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 
 export default function PostList ({files, navigation}){
     return (
         <>
             {files.map((file) => (
+                <TouchableOpacity
+                onPress={()=>{navigation.push('Comments',{file: file.data})}}
+                key={file.data.name}>
+                {
                 !file.data.is_self ? (
                 <Card
                     title={file.data.title}
@@ -25,7 +29,6 @@ export default function PostList ({files, navigation}){
                         height:file.data.thumbnail_height,
                         marginBottom:10
                     }}
-                    key={file.data.name}
                 >
                     {file.data.selftext!=""?
                     <View style={styles.selfText}>
@@ -41,9 +44,9 @@ export default function PostList ({files, navigation}){
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {file.data.score} points  </Text>
                         <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
-                            onPress={()=>{navigation.navigate('Comments',{file: file.data})}}/>
+                            />
                         <Text style={{color:'gray'}}
-                            onPress={()=>{navigation.navigate('Comments',{file: file.data})}}> {file.data.num_comments} comments</Text>
+                            > {file.data.num_comments} comments</Text>
                     </View>
                 </Card>):(
                 <Card
@@ -57,7 +60,6 @@ export default function PostList ({files, navigation}){
                     dividerStyle={{
                         marginBottom:5
                     }}
-                    key={file.data.name}
                 >
                 {file.data.selftext!=""?
                 <View style={styles.selfText}>
@@ -73,12 +75,13 @@ export default function PostList ({files, navigation}){
                     <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                     <Text style={{color:'gray'}}> {file.data.score} points  </Text>
                     <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
-                    onPress={()=>{navigation.push('Comments',{file: file.data})}}/>
+                    />
                     <Text style={{color:'gray'}}
-                    onPress={()=>{navigation.push('Comments',{file: file.data})}}> {file.data.num_comments} comments</Text>
+                    > {file.data.num_comments} comments</Text>
                 </View>
             </Card>
                 )
+            }</TouchableOpacity>
             ))}
         </>
     );
