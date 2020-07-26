@@ -1,8 +1,21 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Card, Icon } from 'react-native-elements';
+import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native"
+import { Card, Icon } from 'react-native-elements'
 import timeago from 'epoch-timeago'
-import Markdown from 'react-native-markdown-renderer';
+import Markdown from 'react-native-markdown-renderer'
+import { Loading } from './LoadingComponent'
+import {fetchComments} from '../redux/ActionCreators'
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+    return {
+        comments: state.comments,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchComments: (permalink) => dispatch(fetchComments(permalink)),
+})
 
 var n_reply=0;
 
@@ -73,26 +86,14 @@ function CommentList({files}){
     )
 }
 
-export default class Comments extends Component{
-
-    constructor(props){
-        super(props);
-        this.state = {
-            files:[],
-            permalink:''
-        }
-    }
+class Comments extends Component{
 
     componentDidMount(){
-        fetch('https://www.reddit.com'+this.props.route.params.file.permalink+'.json')
-        .then(res=>res.json())      
-        .then((data) => {
-        this.setState({ files: data[1].data.children })
-      })
-    .catch('cannot load comments')
+        this.props.fetchComments(this.props.route.params.file.permalink)
     }
 
     render(){
+
         const post = this.props.route.params.file
         const image = typeof(post.preview) != 'undefined' ? post.preview.images[0].resolutions[post.preview.images[0].resolutions.length-1]:null
         const innerWidth = Dimensions.get('window').width ;
@@ -179,14 +180,19 @@ export default class Comments extends Component{
                         )
 
                     }
-                    {
-                    this.state.files.length !=0?
-                    <CommentList files = {this.state.files} 
-                        navigation={this.props.navigation}/>:null
+                    {this.props.comments.isLoading?<Loading/>:
+                        <>
+                            {
+                            this.props.comments.comments[1].data.children.length !=0?
+                            <CommentList files = {this.props.comments.comments[1].data.children} 
+                                navigation={this.props.navigation}/>
+                                :null
+                            }
+                        </>
                     }
                 </ScrollView>
         )
-            }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -226,3 +232,5 @@ const styles = StyleSheet.create({
         marginLeft:20
     }
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);

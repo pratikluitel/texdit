@@ -1,32 +1,47 @@
 import React, {Component} from 'react'
 import {ScrollView} from 'react-native'
 import PostList from './PostListComponent'
+import {Loading } from './LoadingComponent'
+import {fetchPosts} from '../redux/ActionCreators'
+import { connect } from 'react-redux';
 
-export default class Home extends Component{
+const mapStateToProps = state => {
+    return {
+        posts: state.posts,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchPosts: (subreddits) => dispatch(fetchPosts(subreddits)),
+})
+
+class Home extends Component{
+
     constructor(props){
         super(props)
         this.state ={
-            subreddits:[],
-            files:[]
+            subreddits:[]
         }
     }
 
     componentDidMount(){
         const substring = this.state.subreddits.join('+')
-        const subred = (this.state.subreddits.length !== 0? 'r/' : 'best')+substring
-        fetch('https://www.reddit.com/'+subred+'.json')
-        .then(res=>res.json())      
-        .then((data) => {
-        this.setState({ files: data.data.children })
-      })
-    .catch('cannot load subreddit information')
+        const subred = (this.state.subreddits.length !== 0? '/r/' : '/best')+substring
+        this.props.fetchPosts(subred)
     }
+
     render(){
         return(
             <ScrollView>
-                <PostList files = {this.state.files} 
-                navigation={this.props.navigation}/>
+                {
+                this.props.posts.isLoading?
+                    <Loading/>:
+                    <PostList posts = {this.props.posts.posts} 
+                    navigation={this.props.navigation}/>
+                }
             </ScrollView>
         )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

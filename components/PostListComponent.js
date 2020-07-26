@@ -4,7 +4,8 @@ import { Card, Icon } from 'react-native-elements';
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-renderer';
 
-export default function PostList ({files, navigation}){
+export default function PostList ({posts, navigation}){
+    files = posts.data.children
     return (
         <>
             {files.map((file) => (
