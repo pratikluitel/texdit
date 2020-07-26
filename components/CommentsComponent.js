@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Card, Icon } from 'react-native-elements';
 import timeago from 'epoch-timeago'
+import Markdown from 'react-native-markdown-renderer';
 
 var n_reply=0;
 
@@ -15,7 +16,7 @@ function RepliesList({files, n_reply}){
                 key={file.data.name}
                 style={{marginLeft:n_reply*5}}>
                     <View style={styles.textComment}>
-                        <Text style={{ marginHorizontal:0, color:'#4c4c4c'}}>{file.data.body}</Text>
+                        <Markdown>{file.data.body}</Markdown>
                     </View>
                     <View>
                         <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
@@ -48,7 +49,7 @@ function CommentList({files}){
                 key={file.data.name}
                 style={styles.comment}>
                     <View style={styles.textComment}>
-                        <Text style={{ marginHorizontal:0, color:'#4c4c4c'}}>{file.data.body}</Text>
+                        <Markdown>{file.data.body}</Markdown>
                     </View>
                     <View>
                         <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
@@ -122,9 +123,12 @@ export default class Comments extends Component{
                             >
                                 {post.selftext!=""?
                                 <View style={styles.selfText}>
-                                    <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{post.selftext}</Text>
+                                    <Markdown>{post.selftext}</Markdown>
                                 </View>
                                 : null }
+                                <View>
+                                    <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                                </View>
                                 <View style={styles.postInfo}>
                                     <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
                                     <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
@@ -154,9 +158,12 @@ export default class Comments extends Component{
                             >
                             {post.selftext!=""?
                             <View style={styles.selfText}>
-                                <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{post.selftext}</Text>
+                                <Markdown>{post.selftext}</Markdown>
                             </View>
                             : null }
+                            <View>
+                                <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                            </View>
                             <View style={styles.postInfo}>
                                 <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
                                 <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
@@ -193,7 +200,7 @@ const styles = StyleSheet.create({
         marginBottom:10
     },
     textComment:{
-        paddingBottom:8
+        
     },
     statusRow:{
         flex:1, 

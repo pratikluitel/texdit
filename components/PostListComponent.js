@@ -2,6 +2,7 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 import timeago from 'epoch-timeago'
+import Markdown from 'react-native-markdown-renderer';
 
 export default function PostList ({files, navigation}){
     return (
@@ -33,7 +34,7 @@ export default function PostList ({files, navigation}){
                 >
                     {file.data.selftext!=""?
                     <View style={styles.selfText}>
-                        <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
+                        <Markdown>{file.data.selftext}</Markdown>
                     </View>
                     : null }
                     <View style={{marginBottom:5}}>
@@ -67,7 +68,7 @@ export default function PostList ({files, navigation}){
                 >
                 {file.data.selftext!=""?
                 <View style={styles.selfText}>
-                    <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
+                    <Markdown>{file.data.selftext}</Markdown>
                 </View>
                 : null }
                 <View style={{marginBottom:5}}>
