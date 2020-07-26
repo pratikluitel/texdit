@@ -2,11 +2,44 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Card, Icon } from 'react-native-elements';
 
-function CommentList({files}){
+var n_reply=0;
+
+function RepliesList({files, n_reply}){
+    n_reply=n_reply+1
     files.pop()
     return(
         <>
             {files.map((file) => (
+                <View
+                key={file.data.name}
+                style={{marginLeft:n_reply*5}}>
+                    <View style={styles.textComment}>
+                        <Text style={{ marginHorizontal:0, color:'#4c4c4c'}}>{file.data.body}</Text>
+                    </View>
+                    <View style={styles.statusRowComment}>
+                        <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                        <Text style={{color:'gray'}}> {file.data.score} points</Text>
+                        <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                        {file.data.replies !=''?<Text style={{fontSize: 13, color: '#007aff', marginHorizontal:0}}>  u/{file.data.author}</Text>
+                        :<Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>}
+                    </View>
+                    {
+                    file.data.replies !='' && n_reply<=8?
+                    <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
+                    }
+                </View>
+            ))}
+        </>
+    )
+}
+
+function CommentList({files}){
+    files.pop()
+    return(
+        <>
+            {
+            files.map((file) =>{ n_reply = 0; 
+                return(
                 <Card
                 key={file.data.name}
                 style={styles.comment}>
@@ -17,10 +50,17 @@ function CommentList({files}){
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {file.data.score} points</Text>
                         <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>
+                        <Text style={{fontSize: 13, color: '#007aff', marginHorizontal:0}}>  u/{file.data.author}</Text>
+                    </View>
+                    {
+                    file.data.replies !=''?
+                    <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
+                    }
+                    <View>
+                        <Text style={{textAlign:'right'}}>{file.data.replies !=''? file.data.replies.data.children.length: 0} replies</Text>
                     </View>
                 </Card>
-            ))}
+            )})}
         </>
     )
 }
@@ -125,8 +165,11 @@ export default class Comments extends Component{
                         )
 
                     }
+                    {
+                    this.state.files.length !=0?
                     <CommentList files = {this.state.files} 
-                        navigation={this.props.navigation}/>
+                        navigation={this.props.navigation}/>:null
+                    }
                 </ScrollView>
         )
             }
@@ -143,8 +186,6 @@ const styles = StyleSheet.create({
         marginBottom:10
     },
     textComment:{
-        borderBottomColor: '#c5d2e0',
-        borderBottomWidth: 1,
         paddingBottom:8
     },
     statusRow:{
@@ -156,7 +197,10 @@ const styles = StyleSheet.create({
         flex:1, 
         flexDirection:'row', 
         alignItems:'center',
-        marginTop: 8
+        borderBottomColor: '#c5d2e0',
+        borderBottomWidth: 1,
+        marginVertical: 8,
+        paddingBottom:8
     },
     postInfo:{
         flex: 1,
