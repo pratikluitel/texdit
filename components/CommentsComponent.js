@@ -127,7 +127,7 @@ export default class Comments extends Component{
                                 </View>
                                 : null }
                                 <View>
-                                    <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                                    <Text style={{fontSize: 13,marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
                                 </View>
                                 <View style={styles.postInfo}>
                                     <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
@@ -162,7 +162,7 @@ export default class Comments extends Component{
                             </View>
                             : null }
                             <View>
-                                <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                                <Text style={{fontSize: 13, marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
                             </View>
                             <View style={styles.postInfo}>
                                 <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
