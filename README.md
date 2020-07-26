@@ -1,5 +1,5 @@
 ## Texdit for Reddit
---- 
+
 A reddit post fetcher app in [React Native](https://reactnative.dev/) - expo
 
 Currently fetches only the default/best page. Subreddits can be added to the subreddits array in `./HomeComponents.js`
