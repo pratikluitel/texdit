@@ -15,6 +15,8 @@ Fetches the thumbnail in the frontpage, and the full picture after you click on 
 <img src='https://i.redd.it/i5ykdubns6d51.png' width=180 />
 <img src='https://i.redd.it/31acno7tt6d51.png' width=180 />
 
+Minimal styling for now, will focus on it after the basic functionality is completed.
+
 ---
 
 #### Running in your system
