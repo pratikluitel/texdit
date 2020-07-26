@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Card, Icon } from 'react-native-elements';
+import timeago from 'epoch-timeago'
 
 var n_reply=0;
 
@@ -16,6 +17,9 @@ function RepliesList({files, n_reply}){
                     <View style={styles.textComment}>
                         <Text style={{ marginHorizontal:0, color:'#4c4c4c'}}>{file.data.body}</Text>
                     </View>
+                    <View>
+                        <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
+                    </View>
                     <View style={styles.statusRowComment}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {file.data.score} points</Text>
@@ -24,7 +28,7 @@ function RepliesList({files, n_reply}){
                         :<Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>}
                     </View>
                     {
-                    file.data.replies !='' && n_reply<=8?
+                    file.data.replies !='' && n_reply<=5?
                     <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
                     }
                 </View>
@@ -46,6 +50,9 @@ function CommentList({files}){
                     <View style={styles.textComment}>
                         <Text style={{ marginHorizontal:0, color:'#4c4c4c'}}>{file.data.body}</Text>
                     </View>
+                    <View>
+                        <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
+                    </View>
                     <View style={styles.statusRowComment}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {file.data.score} points</Text>
@@ -57,7 +64,7 @@ function CommentList({files}){
                     <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
                     }
                     <View>
-                        <Text style={{textAlign:'right'}}>{file.data.replies !=''? file.data.replies.data.children.length: 0} replies</Text>
+                        <Text style={{textAlign:'right', fontSize: 10}}>{file.data.replies !=''? file.data.replies.data.children.length: 0} replies</Text>
                     </View>
                 </Card>
             )})}

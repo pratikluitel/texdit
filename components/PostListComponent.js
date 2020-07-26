@@ -1,6 +1,7 @@
 import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
+import timeago from 'epoch-timeago'
 
 export default function PostList ({files, navigation}){
     return (
@@ -35,10 +36,13 @@ export default function PostList ({files, navigation}){
                         <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
                     </View>
                     : null }
+                    <View style={{marginBottom:5}}>
+                        <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
+                    </View>
                     <View style={styles.postInfo}>
                         <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
                         <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>                    
                     </View>
                     <View style={styles.statusRow}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
@@ -66,6 +70,9 @@ export default function PostList ({files, navigation}){
                     <Text style={{ marginHorizontal:10, color:'#4c4c4c'}}>{file.data.selftext}</Text>
                 </View>
                 : null }
+                <View style={{marginBottom:5}}>
+                    <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
+                </View>
                 <View style={styles.postInfo}>
                     <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
                     <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
