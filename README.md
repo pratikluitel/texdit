@@ -4,9 +4,9 @@ A reddit post fetcher app in [React Native](https://reactnative.dev/) - expo
 
 Currently fetches only the default/best page. Subreddits can be added to the subreddits array in `./HomeComponents.js`
 
-Also fetches the comments and replies upto level 5 only.
+Also fetches the comments and replies upto a certain level, which can be changed.
 
-Haven't started optimizing yet, many functions are still synchronous. The loading might be a tad slow.
+The loading is async, and it's much faster than before.
 
 Fetches the thumbnail in the frontpage, and the full picture after you click on the post. The goal was to only fetch the text post (as indicated by the name of this app, but ehh why not)
 
