@@ -1,21 +1,17 @@
 import React from 'react'
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-renderer';
 
-export default function PostList ({posts, navigation}){
-    files = posts.data.children
-    return (
-        <>
-            {files.map((file) => (
-                <TouchableOpacity
-                onPress={()=>{navigation.push('Comments',{file: file.data})}}
-                key={file.data.name}>
-                {
-                !file.data.is_self ? (
+const RenderItem = ({item, navigation})=>{
+    return(
+        <TouchableOpacity
+            onPress={()=>{navigation.push('Comments',{file: item.data})}}>
+            {
+            !item.data.is_self ? (
                 <Card
-                    title={file.data.title}
+                    title={item.data.title}
                     titleStyle={{
                         marginHorizontal:15, 
                         textAlign:'left',
@@ -26,37 +22,37 @@ export default function PostList ({posts, navigation}){
                         marginBottom:5
                     }}
                     image={{
-                        uri:file.data.thumbnail
+                        uri:item.data.thumbnail
                     }}
                     imageStyle={{
-                        height:file.data.thumbnail_height,
-                        marginBottom:10
+                        height:item.data.thumbnail_height,
+                        marginBottom:5
                     }}
                 >
-                    {file.data.selftext!=""?
+                    {item.data.selftext!=""?
                     <View style={styles.selfText}>
-                        <Markdown>{file.data.selftext}</Markdown>
+                        <Markdown>{item.data.selftext}</Markdown>
                     </View>
                     : null }
                     <View style={{marginBottom:5}}>
-                        <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
+                        <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(item.data.created_utc*1000)}</Text>
                     </View>
                     <View style={styles.postInfo}>
-                        <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>{item.data.subreddit_name_prefixed}</Text>
                         <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>                    
+                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{item.data.author}</Text>                    
                     </View>
                     <View style={styles.statusRow}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
-                        <Text style={{color:'gray'}}> {file.data.score} points  </Text>
+                        <Text style={{color:'gray'}}> {item.data.score} points  </Text>
                         <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
                             />
                         <Text style={{color:'gray'}}
-                            > {file.data.num_comments} comments</Text>
+                            > {item.data.num_comments} comments</Text>
                     </View>
                 </Card>):(
                 <Card
-                    title={file.data.title}
+                    title={item.data.title}
                     titleStyle={{
                         marginHorizontal:0, 
                         textAlign:'left',
@@ -67,33 +63,42 @@ export default function PostList ({posts, navigation}){
                         marginBottom:5
                     }}
                 >
-                {file.data.selftext!=""?
-                <View style={styles.selfText}>
-                    <Markdown>{file.data.selftext}</Markdown>
-                </View>
-                : null }
-                <View style={{marginBottom:5}}>
-                    <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(file.data.created_utc*1000)}</Text>
-                </View>
-                <View style={styles.postInfo}>
-                    <Text style={{fontSize: 13, color: '#007aff'}}>{file.data.subreddit_name_prefixed}</Text>
-                    <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                    <Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>
-                </View>
-                <View style={styles.statusRow}>
-                    <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
-                    <Text style={{color:'gray'}}> {file.data.score} points  </Text>
-                    <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
-                    />
-                    <Text style={{color:'gray'}}
-                    > {file.data.num_comments} comments</Text>
-                </View>
-            </Card>
+                    {item.data.selftext!=""?
+                    <View style={styles.selfText}>
+                        <Markdown>{item.data.selftext}</Markdown>
+                    </View>
+                    : null }
+                    <View style={{marginBottom:5}}>
+                        <Text style={{fontSize: 13, color:'#4c4c4c', textAlign:'right'}}>  {timeago(item.data.created_utc*1000)}</Text>
+                    </View>
+                    <View style={styles.postInfo}>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>{item.data.subreddit_name_prefixed}</Text>
+                        <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                        <Text style={{fontSize: 13, color: '#007aff'}}>  u/{item.data.author}</Text>
+                    </View>
+                    <View style={styles.statusRow}>
+                        <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                        <Text style={{color:'gray'}}> {item.data.score} points  </Text>
+                        <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
+                        />
+                        <Text style={{color:'gray'}}
+                        > {item.data.num_comments} comments</Text>
+                    </View>
+                </Card>
                 )
-            }</TouchableOpacity>
-            ))}
-        </>
-    );
+            }
+        </TouchableOpacity>
+    )
+}
+
+export default function PostList ({posts, navigation}){
+    return (
+        <FlatList
+            data={posts.data.children}
+            renderItem={({item})=><RenderItem item={item} navigation={navigation}/>}
+            keyExtractor={item=>item.data.name}
+        />
+    )
 }
 
 const styles = StyleSheet.create({
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     },
     statusRow:{
         flex:1, 
-        flexDirection:'row', 
+        flexDirection:'row',
         alignItems:'center'
     },
     postInfo:{

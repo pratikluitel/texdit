@@ -32,14 +32,14 @@ class Home extends Component{
 
     render(){
         return(
-            <ScrollView>
-                {
+            // <ScrollView>
+            //     {
                 this.props.posts.isLoading?
                     <Loading/>:
                     <PostList posts = {this.props.posts.posts} 
                     navigation={this.props.navigation}/>
-                }
-            </ScrollView>
+            //     }
+            // </ScrollView>
         )
     }
 }
