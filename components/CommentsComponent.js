@@ -6,6 +6,7 @@ import Markdown from 'react-native-markdown-display'
 import { Loading } from './LoadingComponent'
 import {fetchComments} from '../redux/ActionCreators'
 import { connect } from 'react-redux';
+import { FlatList } from 'react-native-gesture-handler'
 
 const mapStateToProps = state => {
     return {
@@ -86,19 +87,18 @@ function CommentList({files}){
     )
 }
 
-class Comments extends Component{
-
-    componentDidMount(){
-        this.props.fetchComments(this.props.route.params.file.permalink)
-    }
-
-    render(){
-
-        const post = this.props.route.params.file
-        const image = typeof(post.preview) != 'undefined' ? post.preview.images[0].resolutions[post.preview.images[0].resolutions.length-1]:null
-        const innerWidth = Dimensions.get('window').width ;
-        return( <ScrollView>
-                    {
+function RenderPage({item}){  
+    const post = item.data.dist!=null?item.data.children[0].data:null
+    const image = item.data.dist!=null?
+                    (typeof(post.preview) != 'undefined' ? 
+                        post.preview.images[0].resolutions[post.preview.images[0].resolutions.length-1]
+                    :null):null
+    const innerWidth = item.data.dist!=null?Dimensions.get('window').width:null
+    return(
+        <>
+            {item.data.dist!=null?
+                <>
+                   {
                         typeof(post.preview) != 'undefined' ? (
                             <Card
                                 title={post.title}
@@ -178,9 +178,8 @@ class Comments extends Component{
                             </View>
                         </Card>
                         )
-
                     }
-                    {this.props.comments.isLoading?<Loading/>:
+                    {/* {this.props.comments.isLoading?<Loading/>:
                         <>
                             {
                             this.props.comments.comments[1].data.children.length !=0?
@@ -189,8 +188,125 @@ class Comments extends Component{
                                 :null
                             }
                         </>
-                    }
-                </ScrollView>
+                    } */}
+                </>
+                :
+                <></>
+            }
+        </>
+    )
+}
+
+class Comments extends Component{
+
+    componentDidMount(){
+        this.props.fetchComments(this.props.route.params.file.permalink)
+    }
+
+    render(){
+
+        
+        return( 
+            <FlatList
+                data={this.props.comments.comments}
+                renderItem={({item})=><RenderPage item={item}/>}
+                keyExtractor={item=>{
+                   return( String(item.data.dist==null))
+                }}/>
+            
+                // <ScrollView>
+                //     {
+                //         typeof(post.preview) != 'undefined' ? (
+                //             <Card
+                //                 title={post.title}
+                //                 titleStyle={{
+                //                     marginHorizontal:15, 
+                //                     textAlign:'left',
+                //                     fontSize: 18,
+                //                     marginBottom:10
+                //                 }}
+                //                 dividerStyle={{
+                //                     marginBottom:5
+                //                 }}
+                //                 image={{
+                //                     uri: image.url.replace(/&amp;/g,'&')
+                //                 }}
+                //                 imageStyle={{
+                //                     resizeMode:'cover',
+                //                     width: '100%',
+                //                     height:image.height/image.width*(innerWidth-30),
+                //                     marginBottom:10
+                //                 }}
+                //                 key={post.name}
+                //             >
+                //                 {post.selftext!=""?
+                //                 <View style={styles.selfText}>
+                //                     <Markdown>{post.selftext}</Markdown>
+                //                 </View>
+                //                 : null }
+                //                 <View>
+                //                     <Text style={{fontSize: 13,marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                //                 </View>
+                //                 <View style={styles.postInfo}>
+                //                     <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
+                //                     <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                //                     <Text style={{fontSize: 13, color: '#007aff'}}>  u/{post.author}</Text>
+                //                 </View>
+                //                 <View style={styles.statusRow}>
+                //                     <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                //                     <Text style={{color:'gray'}}> {post.score} points  </Text>
+                //                     <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
+                //                         />
+                //                     <Text style={{color:'gray'}}
+                //                         > {post.num_comments} comments</Text>
+                //                 </View>
+                //             </Card>):(
+                //             <Card
+                //             title={post.title}
+                //             titleStyle={{
+                //                 marginHorizontal:0, 
+                //                 textAlign:'left',
+                //                 fontSize: 18,
+                //                 marginBottom:10
+                //             }}
+                //             dividerStyle={{
+                //                 marginBottom:5
+                //             }}
+                //             key={post.name}
+                //             >
+                //             {post.selftext!=""?
+                //             <View style={styles.selfText}>
+                //                 <Markdown>{post.selftext}</Markdown>
+                //             </View>
+                //             : null }
+                //             <View>
+                //                 <Text style={{fontSize: 13, marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                //             </View>
+                //             <View style={styles.postInfo}>
+                //                 <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
+                //                 <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
+                //                 <Text style={{fontSize: 13, color: '#007aff'}}>  u/{post.author}</Text>
+                //             </View>
+                //             <View style={styles.statusRow}>
+                //                 <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
+                //                 <Text style={{color:'gray'}}> {post.score} points  </Text>
+                //                 <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
+                //                 <Text style={{color:'gray'}}> {post.num_comments} comments</Text>
+                //             </View>
+                //         </Card>
+                //         )
+                //     }
+                //     {this.props.comments.isLoading?<Loading/>:
+                //         <>
+                //             {
+                //             this.props.comments.comments[1].data.children.length !=0?
+                //             <CommentList files = {this.props.comments.comments[1].data.children} 
+                //                 navigation={this.props.navigation}/>
+                //                 :null
+                //             }
+                //         </>
+                //     }
+                // </ScrollView>
         )
     }
 }

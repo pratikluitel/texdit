@@ -19,7 +19,7 @@ class Home extends Component{
     constructor(props){
         super(props)
         this.state ={
-            subreddits:[]
+            subreddits:['cricket']
         }
     }
 
