@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native"
 import { Card, Icon } from 'react-native-elements'
 import timeago from 'epoch-timeago'
-import Markdown from 'react-native-markdown-renderer'
+import Markdown from 'react-native-markdown-display'
 import { Loading } from './LoadingComponent'
 import {fetchComments} from '../redux/ActionCreators'
 import { connect } from 'react-redux';

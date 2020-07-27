@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {ScrollView} from 'react-native'
 import PostList from './PostListComponent'
 import {Loading } from './LoadingComponent'
 import {fetchPosts} from '../redux/ActionCreators'
@@ -32,14 +31,10 @@ class Home extends Component{
 
     render(){
         return(
-            // <ScrollView>
-            //     {
-                this.props.posts.isLoading?
-                    <Loading/>:
-                    <PostList posts = {this.props.posts.posts} 
-                    navigation={this.props.navigation}/>
-            //     }
-            // </ScrollView>
+            this.props.posts.isLoading?
+            <Loading/>:
+            <PostList posts = {this.props.posts.posts} 
+            navigation={this.props.navigation}/>
         )
     }
 }

@@ -2,14 +2,14 @@ import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native'
 import { Card, Icon } from 'react-native-elements';
 import timeago from 'epoch-timeago'
-import Markdown from 'react-native-markdown-renderer';
+import Markdown from 'react-native-markdown-display';
 
 const RenderItem = ({item, navigation})=>{
     return(
         <TouchableOpacity
             onPress={()=>{navigation.push('Comments',{file: item.data})}}>
             {
-            !item.data.is_self ? (
+            (item.data.thumbnail_height!=null) ? (
                 <Card
                     title={item.data.title}
                     titleStyle={{
@@ -60,7 +60,7 @@ const RenderItem = ({item, navigation})=>{
                         marginBottom:10
                     }}
                     dividerStyle={{
-                        marginBottom:5
+                        marginBottom:10
                     }}
                 >
                     {item.data.selftext!=""?
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#c5d2e0',
         borderBottomWidth: 1, 
         paddingVertical:10,
-        marginBottom:10
+        marginBottom:10,
+        marginTop:-15
     },
     statusRow:{
         flex:1, 
