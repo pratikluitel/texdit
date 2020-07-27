@@ -3,7 +3,7 @@ import { baseurl } from '../shared/baseUrl';
 
 export const fetchPosts = (subreddits) => (dispatch) => {
     dispatch(postsLoading())
-    return fetch(baseurl + subreddits+'.json')
+    return fetch(baseurl + subreddits+'.json?limit=1000')
     .then(response => {
         if (response.ok) {
           return response

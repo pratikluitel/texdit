@@ -23,7 +23,7 @@ const Com= (Component, name)=> ({ navigation })=>{
                     headerLeftContainerStyle: {
                         padding: 13
                     },
-                    headerRight: ()=>(<Icon name='more-vert' size={26}
+                    headerRight: ()=>(<Icon name='search' size={26}
                     onPress={()=>{
 
                     }}/>),
@@ -34,7 +34,7 @@ const Com= (Component, name)=> ({ navigation })=>{
             {(name != 'Settings') ?
             <Stack.Screen name={'Comments'} component={Comments}
                 options={{
-                    headerRight: ()=>(<Icon name='more-vert' size={26}
+                    headerRight: ()=>(<Icon name='search' size={26}
                     onPress={()=>{
 
                     }}/>),
