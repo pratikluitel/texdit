@@ -7,7 +7,7 @@ import Markdown from 'react-native-markdown-display';
 const RenderItem = ({item, navigation})=>{
     return(
         <TouchableOpacity
-            onPress={()=>{navigation.push('Comments',{file: item.data})}}>
+            onPress={()=>{navigation.navigate('Comments',{file: item.data})}}>
             {
             (item.data.thumbnail_height!=null) ? (
                 <Card

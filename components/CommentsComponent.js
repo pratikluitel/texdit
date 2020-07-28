@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 var n_reply=0;
-var max_replies=4;
+var max_replies=2;
 
 function RepliesList({files, n_reply}){
     n_reply=n_reply+1
@@ -89,20 +89,19 @@ function RenderComment({item, navigation}){
 }
 
 function RenderPage({item, navigation}){  
-    const post = item.data.dist!=null?item.data.children[0].data:null
     const image = item.data.dist!=null?
-                    (typeof(post.preview) != 'undefined' ? 
-                        post.preview.images[0].resolutions[post.preview.images[0].resolutions.length-1]
+                    (typeof(item.data.children[0].data.preview) != 'undefined' ? 
+                    item.data.children[0].data.preview.images[0].resolutions
+                    [item.data.children[0].data.preview.images[0].resolutions.length-1]
                     :null):null
-    const innerWidth = item.data.dist!=null?Dimensions.get('window').width:null
     return(
         <>
             {item.data.dist!=null?
                 <>
                    {
-                        typeof(post.preview) != 'undefined' ? (
+                        typeof(item.data.children[0].data.preview) != 'undefined' ? (
                             <Card
-                                title={post.title}
+                                title={item.data.children[0].data.title}
                                 titleStyle={{
                                     marginHorizontal:15, 
                                     textAlign:'left',
@@ -118,35 +117,35 @@ function RenderPage({item, navigation}){
                                 imageStyle={{
                                     resizeMode:'cover',
                                     width: '100%',
-                                    height:image.height/image.width*(innerWidth-30),
+                                    height:image.height/image.width*(Dimensions.get('window').width-30),
                                     marginBottom:10
                                 }}
-                                key={post.name}
+                                key={item.data.children[0].data.name}
                             >
-                                {post.selftext!=""?
+                                {item.data.children[0].data.selftext!=""?
                                 <View style={styles.selfText}>
-                                    <Markdown>{post.selftext}</Markdown>
+                                    <Markdown>{item.data.children[0].data.selftext}</Markdown>
                                 </View>
                                 : null }
                                 <View>
-                                    <Text style={{fontSize: 13,marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                                    <Text style={{fontSize: 13,marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(item.data.children[0].data.created_utc*1000)}</Text>
                                 </View>
                                 <View style={styles.postInfo}>
-                                    <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
+                                    <Text style={{fontSize: 13, color: '#007aff'}}>{item.data.children[0].data.subreddit_name_prefixed}</Text>
                                     <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                                    <Text style={{fontSize: 13, color: '#007aff'}}>  u/{post.author}</Text>
+                                    <Text style={{fontSize: 13, color: '#007aff'}}>  u/{item.data.children[0].data.author}</Text>
                                 </View>
                                 <View style={styles.statusRow}>
                                     <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
-                                    <Text style={{color:'gray'}}> {post.score} points  </Text>
+                                    <Text style={{color:'gray'}}> {item.data.children[0].data.score} points  </Text>
                                     <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
                                         />
                                     <Text style={{color:'gray'}}
-                                        > {post.num_comments} comments</Text>
+                                        > {item.data.children[0].data.num_comments} comments</Text>
                                 </View>
                             </Card>):(
                             <Card
-                            title={post.title}
+                            title={item.data.children[0].data.title}
                             titleStyle={{
                                 marginHorizontal:0, 
                                 textAlign:'left',
@@ -156,26 +155,26 @@ function RenderPage({item, navigation}){
                             dividerStyle={{
                                 marginBottom:5
                             }}
-                            key={post.name}
+                            key={item.data.children[0].data.name}
                             >
-                            {post.selftext!=""?
+                            {item.data.children[0].data.selftext!=""?
                             <View style={styles.selfText}>
-                                <Markdown>{post.selftext}</Markdown>
+                                <Markdown>{item.data.children[0].data.selftext}</Markdown>
                             </View>
                             : null }
                             <View>
-                                <Text style={{fontSize: 13, marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(post.created_utc*1000)}</Text>
+                                <Text style={{fontSize: 13, marginBottom:8, color:'#4c4c4c', textAlign:'right'}}>  {timeago(item.data.children[0].data.created_utc*1000)}</Text>
                             </View>
                             <View style={styles.postInfo}>
-                                <Text style={{fontSize: 13, color: '#007aff'}}>{post.subreddit_name_prefixed}</Text>
+                                <Text style={{fontSize: 13, color: '#007aff'}}>{item.data.children[0].data.subreddit_name_prefixed}</Text>
                                 <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
-                                <Text style={{fontSize: 13, color: '#007aff'}}>  u/{post.author}</Text>
+                                <Text style={{fontSize: 13, color: '#007aff'}}>  u/{item.data.children[0].data.author}</Text>
                             </View>
                             <View style={styles.statusRow}>
                                 <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
-                                <Text style={{color:'gray'}}> {post.score} points  </Text>
+                                <Text style={{color:'gray'}}> {item.data.children[0].data.score} points  </Text>
                                 <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
-                                <Text style={{color:'gray'}}> {post.num_comments} comments</Text>
+                                <Text style={{color:'gray'}}> {item.data.children[0].data.num_comments} comments</Text>
                             </View>
                         </Card>
                         )
