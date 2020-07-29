@@ -14,11 +14,11 @@ import Comments from './CommentsComponent'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const Com= (Component, name, toggleModal)=> ({ navigation })=>{
+const Com= (Component, name, toggleModal, subreddits)=> ({ navigation })=>{
     return(
         <Stack.Navigator>
             {(name == 'Frontpage') ?
-            <Stack.Screen name={name} component={Component}
+            <Stack.Screen name={subreddits.length == 0?name:'r/'+subreddits[0]} component={Component} initialParams={{subreddits:subreddits}}
             options={{
                 headerLeft: ()=>(<Icon name='menu' size={26}
                 onPress={()=>navigation.toggleDrawer()}/>),
@@ -53,6 +53,7 @@ export default class Main extends Component{
     constructor(props){
         super(props)
         this.state = {
+            subreddits:[],
             subtext: '',
             modalVisible: false
         }
@@ -66,9 +67,9 @@ export default class Main extends Component{
         return(
             <>
                 <NavigationContainer>
-                    <Drawer.Navigator initialRouteName="Frontpage">
+                    <Drawer.Navigator initialRouteName="Browse">
                         {/* Sign in button */}
-                        <Drawer.Screen name="Frontpage" component={Com(Home,"Frontpage", this.toggleModal)} />
+                        <Drawer.Screen name="Browse" component={Com(Home,"Frontpage", this.toggleModal, this.state.subreddits)} />
                         <Drawer.Screen name="Profile" component={Com(User,"Profile")} />
                         <Drawer.Screen name="Saved" component={Com(Saved,"Saved")} />
                         {/* A search button (goto sub)  */}
@@ -93,7 +94,10 @@ export default class Main extends Component{
                         <Button 
                             title='go'
                             style={styles.openButton}
-                            onPress={()=>{this.toggleModal();}}/>
+                            onPress={()=>{
+                                this.setState({subreddits: [this.state.subtext], subtext:''})
+                                this.toggleModal();
+                                }}/>
                         <Button 
                             title='cancel'
                             style={styles.openButton}

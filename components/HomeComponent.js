@@ -16,16 +16,9 @@ const mapDispatchToProps = dispatch => ({
 
 class Home extends Component{
 
-    constructor(props){
-        super(props)
-        this.state ={
-            subreddits:[]
-        }
-    }
-
     componentDidMount(){
-        const substring = this.state.subreddits.join('+')
-        const subred = (this.state.subreddits.length !== 0? '/r/' : '/best')+substring
+        const substring = this.props.route.params.subreddits.join('+')
+        const subred = (this.props.route.params.subreddits.length !== 0? '/r/' : '/best')+substring
         this.props.fetchPosts(subred)
     }
 
