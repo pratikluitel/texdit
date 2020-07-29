@@ -1,8 +1,9 @@
 import React from 'react'
-import {Text, View, StyleSheet, FlatList} from 'react-native'
-import { Card, Icon } from 'react-native-elements';
+import { Text, View, StyleSheet, FlatList } from 'react-native'
+import { Card, Icon } from 'react-native-elements'
 import timeago from 'epoch-timeago'
-import Markdown from 'react-native-markdown-display';
+import Markdown from 'react-native-markdown-display'
+import Error from './ErrorComponent'
 
 const RenderItem = ({item, navigation})=>{
     return(
@@ -91,12 +92,15 @@ const RenderItem = ({item, navigation})=>{
 }
 
 export default function PostList ({posts, navigation}){
+    const error = typeof(posts.error)=='undefined'?null:posts.error
     return (
+        error==null?
         <FlatList
             data={posts.data.children}
             renderItem={({item})=><RenderItem item={item} navigation={navigation}/>}
             keyExtractor={item=>item.data.name}
         />
+        :<Error error={posts}/>
     )
 }
 

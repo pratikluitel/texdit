@@ -95,7 +95,7 @@ export default class Main extends Component{
                             title='go'
                             style={styles.openButton}
                             onPress={()=>{
-                                this.setState({subreddits: [this.state.subtext], subtext:''})
+                                this.setState({subreddits: this.state.subtext.length==0?[]:[this.state.subtext], subtext:''})
                                 this.toggleModal();
                                 }}/>
                         <Button 
