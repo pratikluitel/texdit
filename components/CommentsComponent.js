@@ -44,8 +44,8 @@ function RepliesList({files, n_reply}){
                                 :<Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>}
                             </View>
                             {
-                            file.data.replies !='' && n_reply<=max_replies?
-                            <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
+                                file.data.replies !='' && n_reply<=max_replies?
+                                <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
                             }
                         </>
                     :null}

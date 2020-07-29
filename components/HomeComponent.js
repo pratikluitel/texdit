@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PostList from './PostListComponent'
-import {Loading } from './LoadingComponent'
-import {fetchPosts} from '../redux/ActionCreators'
+import { Loading } from './LoadingComponent'
+import { fetchPosts } from '../redux/ActionCreators'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
