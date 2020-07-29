@@ -200,7 +200,7 @@ function RenderPage({item, navigation}){
 class Comments extends Component{
 
     componentDidMount(){
-        this.props.fetchComments(this.props.route.params.file.permalink)
+        this.props.fetchComments(this.props.route.params.permalink)
     }
 
     render(){
