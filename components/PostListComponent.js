@@ -91,15 +91,19 @@ const RenderItem = ({item, navigation})=>{
     )
 }
 
-export default function PostList ({posts, navigation}){
-    const error = typeof(posts.error)=='undefined'?null:posts.error
-    return (
-        error==null?
+function RenderList({posts, navigation}){
+    return(
         <FlatList
             data={posts.data.children}
             renderItem={({item})=><RenderItem item={item} navigation={navigation}/>}
             keyExtractor={item=>item.data.name}
         />
+    )
+}
+export default function PostList ({posts, navigation}){
+    return (
+        typeof(posts.data)!='undefined'?
+        <RenderList posts={posts} navigation={navigation}/>
         :<Error error={posts}/>
     )
 }
