@@ -5,7 +5,7 @@ export default function Error({ error }){
     return(
         <Card
         title="Error">
-            <Text>{error.error} - {error.message}</Text>
+            <Text>Page cannot be found, are you sure? {error.error} {error.message}</Text>
         </Card>
     )
 }

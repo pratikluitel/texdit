@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
-import Error from './ErrorComponent'
 import { fetchPosts } from '../redux/ActionCreators'
 import { connect } from 'react-redux';
 
@@ -19,7 +18,7 @@ class User extends Component{
 
     componentDidMount(){
         const substring = this.props.route.params.subreddits[0]
-        const subred = (this.props.route.params.subreddits.length !== 0? '/r/u_' : '')+substring
+        const subred = (this.props.route.params.subreddits.length !== 0? '/user/' : '')+substring
         this.props.fetchPosts(subred)
     }
 
