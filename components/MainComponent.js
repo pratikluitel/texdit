@@ -3,7 +3,7 @@ import { TextInput, Modal, View, Text, Button, StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Icon } from 'react-native-elements'
+import { Icon, Card } from 'react-native-elements'
 import Home from './HomeComponent'
 import User from './UserComponent'
 import Saved from './SavedComponent'
@@ -78,35 +78,39 @@ export default class Main extends Component{
                             and a share button */}
                     </Drawer.Navigator>
                 </NavigationContainer>
-                <Modal visible={this.state.modalVisible}>
-                    <View
-                    style={styles.modalView}>
-                        <Text style={styles.textStyle}>Type the subreddit you want to navigate to</Text>
-                        <View
-                        style={{height: 50,width:160,padding: 10, margin:10, borderBottomColor:'black',borderWidth:1}}>
-                            <TextInput
-                            onChangeText={(subtext)=>this.setState({subtext:subtext})}
-                            value={this.state.subtext}
-                            />
-                        </View>
-                       <View
-                       style={{ flexDirection: 'row'}}>
-                        <Button 
-                            title='go'
-                            style={styles.openButton}
-                            onPress={()=>{
-                                this.setState({subreddits: this.state.subtext.length==0?[]:[this.state.subtext], subtext:''})
-                                this.toggleModal();
-                                }}/>
-                        <Button 
-                            title='cancel'
-                            style={styles.openButton}
-                            onPress={this.toggleModal}/>
-                       </View>
-                        
+                <Modal 
+                transparent
+                visible={this.state.modalVisible}
+                >
+                    <View style={styles.modal}>
+                        <Card
+                        style={styles.modalView}>
+                            <View
+                            style={styles.textBox}>
+                                <TextInput
+                                onChangeText={(subtext)=>this.setState({subtext:subtext})}
+                                value={this.state.subtext}
+                                />
+                            </View>
+                            <View
+                            style={{ flexDirection: 'row', alignItems:'flex-end'}}>
+                                <Button 
+                                    title='go'
+                                    style={styles.openButton}
+                                    color='gray'
+                                    onPress={()=>{
+                                        this.setState({subreddits: this.state.subtext.length==0?[]:[this.state.subtext], subtext:''})
+                                        this.toggleModal();
+                                        }}/>
+                                <Button 
+                                    title='cancel'
+                                    style={styles.openButton}
+                                    color='gray'
+                                    onPress={this.toggleModal}/>
+                            </View>
+                        </Card>
                     </View>
                 </Modal>
-
             </>
         )
     }
@@ -114,31 +118,33 @@ export default class Main extends Component{
 
 
 const styles = StyleSheet.create({
+    modal:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'rgba(0,0,0,0.5)'        
+    },
     modalView: {
       margin: 20,
-      backgroundColor:'white',
       borderRadius: 20,
       padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5
+      alignItems: "center"
     },
     openButton: {
-      borderRadius: 20,
       padding: 10,
-      elevation: 2,
       margin: 10
     },
     textStyle: {
       color: "black",
       fontWeight: "bold",
       textAlign: "center"
+    },
+    textBox:{
+        alignSelf: "center",
+        width:'80%',
+        marginBottom:15,
+        borderBottomColor:'black',
+        borderBottomWidth:1
     }
   });
   
