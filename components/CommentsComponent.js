@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 var n_reply=0;
-var max_replies=2;
+var max_reply_depth=2;
 
 function RepliesList({files, n_reply}){
     n_reply=n_reply+1
@@ -44,7 +44,7 @@ function RepliesList({files, n_reply}){
                                 :<Text style={{fontSize: 13, color: '#007aff'}}>  u/{file.data.author}</Text>}
                             </View>
                             {
-                                file.data.replies !='' && n_reply<=max_replies?
+                                file.data.replies !='' && n_reply<=max_reply_depth?
                                 <RepliesList files={file.data.replies.data.children} n_reply={n_reply}/>:null
                             }
                         </>
