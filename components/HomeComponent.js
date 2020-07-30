@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
-import Error from './ErrorComponent'
 import { fetchPosts } from '../redux/ActionCreators'
 import { connect } from 'react-redux';
 

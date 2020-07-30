@@ -17,8 +17,8 @@ const Stack = createStackNavigator();
 const Com= (Component, name, toggleModal, subreddits)=> ({ navigation })=>{
     return(
         <Stack.Navigator>
-            {(name == 'Frontpage') ?
-            <Stack.Screen name={subreddits.length == 0?name:'r/'+subreddits[0]} component={Component} initialParams={{subreddits:subreddits}}
+            {(name == 'Frontpage' || name=='Profile') ?
+            <Stack.Screen name={subreddits.length == 0?name:(name == 'Frontpage'?'r/':'u/')+subreddits[0]} component={Component} initialParams={{subreddits:subreddits}}
             options={{
                 headerLeft: ()=>(<Icon name='menu' size={26}
                 onPress={()=>navigation.toggleDrawer()}/>),
@@ -70,7 +70,7 @@ export default class Main extends Component{
                     <Drawer.Navigator initialRouteName="Browse">
                         {/* Sign in button */}
                         <Drawer.Screen name="Browse" component={Com(Home,"Frontpage", this.toggleModal, this.state.subreddits)} />
-                        <Drawer.Screen name="Profile" component={Com(User,"Profile")} />
+                        <Drawer.Screen name="Profile" component={Com(User,"Profile",this.toggleModal, this.state.subreddits)} />
                         <Drawer.Screen name="Saved" component={Com(Saved,"Saved")} />
                         {/* A search button (goto sub)  */}
                         <Drawer.Screen name="Settings" component={Com(Settings,"Settings")} />
