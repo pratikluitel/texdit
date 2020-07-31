@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { TextInput, Modal, View, Button, StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Icon, Card } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import Home from './HomeComponent'
 import User from './UserComponent'
 import Saved from './SavedComponent'
@@ -13,27 +12,10 @@ import Comments from './CommentsComponent'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const Com= (Component, name, toggleModal ,subreddits)=> ({ navigation })=>{
+const Com= (Component, name)=> ({ navigation })=>{
     return(
         <Stack.Navigator>
-            {(name == 'Frontpage' || name=='Profile') ?
-            <Stack.Screen name={subreddits.length == 0?name:(name == 'Frontpage'?'r/':'u/')+subreddits[0]} 
-                component={Component} initialParams={{subreddits:subreddits}}
-                options={{
-                    headerLeft: ()=>(<Icon name='menu' size={26}
-                    onPress={()=>navigation.toggleDrawer()}/>),
-                    headerLeftContainerStyle: {
-                        padding: 13
-                    },
-                    headerRight: ()=>(<Icon name='search' size={26}
-                    // onPress={()=>{
-                    //     toggleModal()
-                    // }}
-                    />),
-                    headerRightContainerStyle:{
-                        padding: 13
-                    }
-            }}/>: <Stack.Screen name={name} component={Component}
+            <Stack.Screen name={name} component={Component}
                 options={{
                     headerLeft: ()=>(<Icon name='menu' size={26}
                     onPress={()=>navigation.toggleDrawer()}/>),
@@ -41,7 +23,6 @@ const Com= (Component, name, toggleModal ,subreddits)=> ({ navigation })=>{
                         padding: 13
                     }
                 }}/>
-            }
             {(name != 'Settings') ?
             <Stack.Screen name={'Comments'} component={Comments}
                 />: null
@@ -51,101 +32,20 @@ const Com= (Component, name, toggleModal ,subreddits)=> ({ navigation })=>{
 }
 
 export default class Main extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            subreddits:[],
-            modalVisible: false
-        }
-    }
-    
-    toggleModal = () => {
-        this.setState({ modalVisible: !this.state.modalVisible });
-    }
     
     render(){
-        var tempsub=''
         return(
-            <>
-                <NavigationContainer>
-                    <Drawer.Navigator initialRouteName="Browse">
-                        {/* Sign in button */}
-                        <Drawer.Screen name="Browse" component={Com(Home,"Frontpage",this.toggleModal, this.state.subreddits)} />
-                        <Drawer.Screen name="Profile" component={Com(User,"Profile",this.toggleModal, this.state.subreddits)} />
-                        <Drawer.Screen name="Saved" component={Com(Saved,"Saved")} />
-                        <Drawer.Screen name="Settings" component={Com(Settings,"Settings")} />
-                        {/*  A rate button 
-                            and a share button */}
-                    </Drawer.Navigator>
-                </NavigationContainer>
-                {/* <Modal 
-                transparent
-                visible={this.state.modalVisible}
-                >
-                    <View style={styles.modal}>
-                        <Card
-                        style={styles.modalView}>
-                            <View
-                            style={styles.textBox}>
-                                <TextInput
-                                onChangeText={(subtext)=>tempsub=subtext}
-                                value={tempsub}
-                                />
-                            </View>
-                            <View
-                            style={{ flexDirection: 'row'}}>
-                                <Button 
-                                    title='search'
-                                    style={styles.openButton}
-                                    color='gray'
-                                    onPress={()=>{
-                                        this.setState({subreddits: tempsub==0?[]:[tempsub]})
-                                        tempsub=''
-                                        this.toggleModal();
-                                        }}/>
-                                <Button 
-                                    title='cancel'
-                                    style={styles.openButton}
-                                    color='gray'
-                                    onPress={this.toggleModal}/>
-                            </View>
-                        </Card>
-                    </View>
-                </Modal> */}
-            </>
+            <NavigationContainer>
+                <Drawer.Navigator initialRouteName="Browse">
+                    {/* Sign in button */}
+                    <Drawer.Screen name="Browse" component={Com(Home,"Frontpage")} />
+                    <Drawer.Screen name="Profile" component={Com(User,"Profile")} />
+                    <Drawer.Screen name="Saved" component={Com(Saved,"Saved")} />
+                    <Drawer.Screen name="Settings" component={Com(Settings,"Settings")} />
+                    {/*  A rate button 
+                        and a share button */}
+                </Drawer.Navigator>
+            </NavigationContainer>
         )
     }
 }
-
-
-const styles = StyleSheet.create({
-    modal:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'rgba(0,0,0,0.5)'        
-    },
-    modalView: {
-      margin: 20,
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center"
-    },
-    openButton: {
-      padding: 10,
-      margin: 10
-    },
-    textStyle: {
-      color: "black",
-      fontWeight: "bold",
-      textAlign: "center"
-    },
-    textBox:{
-        alignSelf: "center",
-        width:'80%',
-        marginBottom:15,
-        borderBottomColor:'black',
-        borderBottomWidth:1
-    }
-  });
-  

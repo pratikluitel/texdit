@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Icon } from 'react-native-elements'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
 import { baseurl } from '../shared/baseUrl'
@@ -8,6 +9,8 @@ class User extends Component{
     constructor(props){
         super(props)
         this.state = {
+            user:'',
+            modalVisible: false,
             posts: {
                 isLoading: true,
                 errMess: null,
@@ -16,9 +19,24 @@ class User extends Component{
         }
     }
 
-    componentDidMount(){
-        const substring = this.props.route.params.subreddits[0]
-        const user = (this.props.route.params.subreddits.length !== 0? '/user/' : '')+substring
+    toggleModal = () => {
+        this.setState({ ...this.state, modalVisible: !this.state.modalVisible });
+    }
+
+    componentDidMount(){ 
+        this.props.navigation.setOptions({
+            headerTitle: this.state.user.length == 0?'User':'u/'+this.state.user,
+            headerRight: ()=>(<Icon name='search' size={26}
+                onPress={()=>{
+                    this.toggleModal()
+                }}
+            />),
+            headerRightContainerStyle:{
+                padding: 13
+            }
+        })
+        const substring = this.state.user
+        const user = (this.state.user.length !== 0? '/user/' : '')+substring
         fetch(baseurl + user+'.json?limit=1000')
         .then(response => {
             if (response.ok) {
