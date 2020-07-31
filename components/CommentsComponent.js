@@ -190,10 +190,12 @@ class Comments extends Component{
 
     constructor(props){
         super(props)
-        this.state={
-            isLoading: true,
-            errMess: null,
-            comments:[]
+        this.state = {
+                comments:{
+                isLoading: true,
+                errMess: null,
+                comments:[]
+            }
         }
     }
 
@@ -213,16 +215,25 @@ class Comments extends Component{
             throw errmess
         })
         .then(response => response.json())
-        .then(comments => this.setState({ ...this.state, errMess:null, comments: comments, isLoading: false }))
-        .catch(error => this.setState({ ...this.state, isLoading: false, errMess:error }))
+        .then(comments => this.setState({ ...this.state, 
+                comments:{
+                    errMess:null, comments: comments, isLoading: false 
+                }
+            })
+        )
+        .catch(error => this.setState({ ...this.state, 
+            comments:{
+                ...this.state.comments, isLoading: false, errMess:error 
+            }})
+        )
     }
 
     render(){
 
         return( 
-            this.state.isLoading?<Loading/>:
+            this.state.comments.isLoading?<Loading/>:
             <FlatList
-                data={this.state.comments}
+                data={this.state.comments.comments}
                 renderItem={({item})=><RenderPage item={item}
                     navigation={this.props.navigation}/>}
                 keyExtractor={item=>{

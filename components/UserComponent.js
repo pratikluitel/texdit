@@ -8,9 +8,11 @@ class User extends Component{
     constructor(props){
         super(props)
         this.state = {
-            isLoading: true,
-            errMess: null,
-            posts:[]
+            posts: {
+                isLoading: true,
+                errMess: null,
+                posts:[]
+            }
         }
     }
 
@@ -33,18 +35,29 @@ class User extends Component{
         })
         .then(response => response.json())
         .then(posts => {
-            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:null, posts: posts })
+            if (this.mounted) 
+                this.setState({ ...this.state, 
+                    posts:{ 
+                        errMess:null, posts: posts, isLoading: false 
+                    }
+                })
         })
         .catch(error => {
-            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:error })
+            if (this.mounted) 
+                this.setState({
+                    ...this.state, 
+                    posts:{
+                        ...this.state.posts ,isLoading: false, errMess:error 
+                    }
+                })
         })
     }
 
     render(){
         return(
-            this.state.isLoading?
+            this.state.posts.isLoading?
             <Loading/>:
-            <PostList posts = {this.state.posts} 
+            <PostList posts = {this.state.posts.posts} 
             navigation={this.props.navigation}/>
         )
     }

@@ -26,9 +26,10 @@ const Com= (Component, name, toggleModal ,subreddits)=> ({ navigation })=>{
                         padding: 13
                     },
                     headerRight: ()=>(<Icon name='search' size={26}
-                    onPress={()=>{
-                        toggleModal()
-                    }}/>),
+                    // onPress={()=>{
+                    //     toggleModal()
+                    // }}
+                    />),
                     headerRightContainerStyle:{
                         padding: 13
                     }
@@ -54,7 +55,6 @@ export default class Main extends Component{
         super(props)
         this.state = {
             subreddits:[],
-            subtext: '',
             modalVisible: false
         }
     }
@@ -64,6 +64,7 @@ export default class Main extends Component{
     }
     
     render(){
+        var tempsub=''
         return(
             <>
                 <NavigationContainer>
@@ -77,7 +78,7 @@ export default class Main extends Component{
                             and a share button */}
                     </Drawer.Navigator>
                 </NavigationContainer>
-                <Modal 
+                {/* <Modal 
                 transparent
                 visible={this.state.modalVisible}
                 >
@@ -87,18 +88,19 @@ export default class Main extends Component{
                             <View
                             style={styles.textBox}>
                                 <TextInput
-                                onChangeText={(subtext)=>this.setState({subtext:subtext})}
-                                value={this.state.subtext}
+                                onChangeText={(subtext)=>tempsub=subtext}
+                                value={tempsub}
                                 />
                             </View>
                             <View
                             style={{ flexDirection: 'row'}}>
                                 <Button 
-                                    title='go'
+                                    title='search'
                                     style={styles.openButton}
                                     color='gray'
                                     onPress={()=>{
-                                        this.setState({subreddits: this.state.subtext.length==0?[]:[this.state.subtext], subtext:''})
+                                        this.setState({subreddits: tempsub==0?[]:[tempsub]})
+                                        tempsub=''
                                         this.toggleModal();
                                         }}/>
                                 <Button 
@@ -109,7 +111,7 @@ export default class Main extends Component{
                             </View>
                         </Card>
                     </View>
-                </Modal>
+                </Modal> */}
             </>
         )
     }

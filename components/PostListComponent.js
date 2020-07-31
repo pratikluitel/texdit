@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, FlatList } from 'react-native'
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-display'
@@ -9,7 +9,8 @@ const RenderItem = ({item, navigation})=>{
     return(
         <>
             {item.kind !='t1'?     
-                <>
+                <TouchableOpacity
+                onPress={()=>{navigation.navigate('Comments',{permalink: item.data.permalink})}}>
                     {
                     (item.data.thumbnail_height!=null) ? (
                         <Card
@@ -47,10 +48,8 @@ const RenderItem = ({item, navigation})=>{
                             <View style={styles.statusRow}>
                                 <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                                 <Text style={{color:'gray'}}> {item.data.score} points  </Text>
-                                <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
-                                onPress={()=>{navigation.navigate('Comments',{permalink: item.data.permalink})}}/>
-                                <Text style={{color:'gray'}}
-                                onPress={()=>{navigation.navigate('Comments',{permalink: item.data.permalink})}}> {item.data.num_comments} comments</Text>
+                                <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
+                                <Text style={{color:'gray'}}> {item.data.num_comments} comments</Text>
                             </View>
                         </Card>):(
                         <Card
@@ -81,15 +80,13 @@ const RenderItem = ({item, navigation})=>{
                             <View style={styles.statusRow}>
                                 <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                                 <Text style={{color:'gray'}}> {item.data.score} points  </Text>
-                                <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}
-                                onPress={()=>{navigation.navigate('Comments',{permalink: item.data.permalink})}}/>
-                                <Text style={{color:'gray'}}
-                                onPress={()=>{navigation.navigate('Comments',{permalink: item.data.permalink})}}> {item.data.num_comments} comments</Text>
+                                <Icon name='comment-o' type='font-awesome' size={15} color='gray' style={{textAlign:'left'}}/>
+                                <Text style={{color:'gray'}}> {item.data.num_comments} comments</Text>
                             </View>
                         </Card>
                         )
                     }
-                </>:
+                </TouchableOpacity>:
                 <Card
                 title={item.data.link_title}
                 titleStyle={{

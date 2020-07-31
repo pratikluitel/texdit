@@ -5,13 +5,27 @@ import {baseurl} from '../shared/baseUrl'
 
 class Home extends Component{
 
+    static navigationOptions = {
+        headerRight: ()=>(<Icon name='search' size={26}
+            onPress={()=>{
+                toggleModal()
+            }}
+            />)
+    }
+
     constructor(props){
         super(props)
         this.state={
-            isLoading: true,
-            errMess: null,
-            posts:[]
+            posts: {
+                isLoading: true,
+                errMess: null,
+                posts:[]
+            }
         }
+    }
+
+    toggleModal = () => {
+        this.setState({ modalVisible: !this.state.modalVisible });
     }
 
     componentDidMount(){
@@ -34,18 +48,30 @@ class Home extends Component{
         })
         .then(response => response.json())
         .then(posts => {
-            if (this.mounted) this.setState({ ...this.state, errMess:null, posts: posts, isLoading: false })
+            if (this.mounted) 
+                this.setState({
+                    ...this.state, 
+                    posts:{ 
+                        errMess:null, posts: posts, isLoading: false 
+                    }
+                })
         })
         .catch(error => {
-            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:error })
+            if (this.mounted) 
+                this.setState({ 
+                    ...this.state, 
+                    posts:{
+                        ...this.state.posts ,isLoading: false, errMess:error 
+                    }
+                })
         })
     }
 
     render(){
         return(
-            this.state.isLoading?
+            this.state.posts.isLoading?
             <Loading/>:
-            <PostList posts = {this.state.posts} 
+            <PostList posts = {this.state.posts.posts} 
             navigation={this.props.navigation}/>
         )
     }
