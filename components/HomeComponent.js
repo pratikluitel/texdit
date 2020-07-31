@@ -15,6 +15,7 @@ class Home extends Component{
     }
 
     componentDidMount(){
+        this.mounted = true;
         const substring = this.props.route.params.subreddits.join('+')
         const subred = (this.props.route.params.subreddits.length !== 0? '/r/' : '/best')+substring
         fetch(baseurl + subred+'.json?limit=1000')
@@ -32,18 +33,25 @@ class Home extends Component{
             throw errmess
         })
         .then(response => response.json())
-        .then(posts => this.setState({ ...this.state, errMess:null, posts: posts, isLoading: false }))
-        .catch(error => this.setState({ ...this.state, isLoading: false, errMess:error }))
+        .then(posts => {
+            if (this.mounted) this.setState({ ...this.state, errMess:null, posts: posts, isLoading: false })
+        })
+        .catch(error => {
+            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:error })
+        })
     }
 
     render(){
-        console.log(this.state.posts)
         return(
             this.state.isLoading?
             <Loading/>:
             <PostList posts = {this.state.posts} 
             navigation={this.props.navigation}/>
         )
+    }
+
+    componentWillUnmount(){
+        this.mounted = false
     }
 }
 

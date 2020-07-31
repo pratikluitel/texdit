@@ -13,32 +13,33 @@ import Comments from './CommentsComponent'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const Com= (Component, name, toggleModal, subreddits)=> ({ navigation })=>{
+const Com= (Component, name, toggleModal ,subreddits)=> ({ navigation })=>{
     return(
         <Stack.Navigator>
             {(name == 'Frontpage' || name=='Profile') ?
-            <Stack.Screen name={subreddits.length == 0?name:(name == 'Frontpage'?'r/':'u/')+subreddits[0]} component={Component} initialParams={{subreddits:subreddits}}
-            options={{
-                headerLeft: ()=>(<Icon name='menu' size={26}
-                onPress={()=>navigation.toggleDrawer()}/>),
-                headerLeftContainerStyle: {
-                    padding: 13
-                },
-                headerRight: ()=>(<Icon name='search' size={26}
-                onPress={()=>{
-                    toggleModal()
-                }}/>),
-                headerRightContainerStyle:{
-                    padding: 13
-                }
+            <Stack.Screen name={subreddits.length == 0?name:(name == 'Frontpage'?'r/':'u/')+subreddits[0]} 
+                component={Component} initialParams={{subreddits:subreddits}}
+                options={{
+                    headerLeft: ()=>(<Icon name='menu' size={26}
+                    onPress={()=>navigation.toggleDrawer()}/>),
+                    headerLeftContainerStyle: {
+                        padding: 13
+                    },
+                    headerRight: ()=>(<Icon name='search' size={26}
+                    onPress={()=>{
+                        toggleModal()
+                    }}/>),
+                    headerRightContainerStyle:{
+                        padding: 13
+                    }
             }}/>: <Stack.Screen name={name} component={Component}
-            options={{
-                headerLeft: ()=>(<Icon name='menu' size={26}
-                onPress={()=>navigation.toggleDrawer()}/>),
-                headerLeftContainerStyle: {
-                    padding: 13
-                }
-            }}/>
+                options={{
+                    headerLeft: ()=>(<Icon name='menu' size={26}
+                    onPress={()=>navigation.toggleDrawer()}/>),
+                    headerLeftContainerStyle: {
+                        padding: 13
+                    }
+                }}/>
             }
             {(name != 'Settings') ?
             <Stack.Screen name={'Comments'} component={Comments}
@@ -68,10 +69,9 @@ export default class Main extends Component{
                 <NavigationContainer>
                     <Drawer.Navigator initialRouteName="Browse">
                         {/* Sign in button */}
-                        <Drawer.Screen name="Browse" component={Com(Home,"Frontpage", this.toggleModal, this.state.subreddits)} />
+                        <Drawer.Screen name="Browse" component={Com(Home,"Frontpage",this.toggleModal, this.state.subreddits)} />
                         <Drawer.Screen name="Profile" component={Com(User,"Profile",this.toggleModal, this.state.subreddits)} />
                         <Drawer.Screen name="Saved" component={Com(Saved,"Saved")} />
-                        {/* A search button (goto sub)  */}
                         <Drawer.Screen name="Settings" component={Com(Settings,"Settings")} />
                         {/*  A rate button 
                             and a share button */}

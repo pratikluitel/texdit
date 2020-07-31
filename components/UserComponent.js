@@ -32,8 +32,12 @@ class User extends Component{
             throw errmess
         })
         .then(response => response.json())
-        .then(posts => this.setState({ ...this.state, isLoading: false, errMess:null, posts: posts }))
-        .catch(error => this.setState({ ...this.state, isLoading: false, errMess:error }))
+        .then(posts => {
+            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:null, posts: posts })
+        })
+        .catch(error => {
+            if (this.mounted) this.setState({ ...this.state, isLoading: false, errMess:error })
+        })
     }
 
     render(){
@@ -43,6 +47,10 @@ class User extends Component{
             <PostList posts = {this.state.posts} 
             navigation={this.props.navigation}/>
         )
+    }
+
+    componentWillUnmount(){
+        this.mounted = false
     }
 }
 

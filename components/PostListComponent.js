@@ -107,7 +107,7 @@ const RenderItem = ({item, navigation})=>{
                     <View>
                         <Text style={{fontSize: 10, fontStyle:'italic', color:'#4c4c4c', textAlign:'right'}}>  {timeago(item.data.created_utc*1000)}</Text>
                     </View>
-                    <View style={styles.statusRowComment}>
+                    <View style={styles.statusRowUser}>
                         <Icon name='arrow-up' type='feather' size={15} color='gray' style={{textAlign:'left'}}/>
                         <Text style={{color:'gray'}}> {item.data.score} points</Text>
                         <Text style={{fontSize: 13, color:'#4c4c4c'}}>  •</Text>
@@ -167,4 +167,11 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         paddingBottom:8
     },
+    statusRowUser:{
+        flex:1, 
+        flexDirection:'row', 
+        alignItems:'center',
+        marginTop: 8,
+        marginBottom:4 
+    }
 })
