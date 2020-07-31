@@ -77,15 +77,7 @@ class Home extends Component{
     componentDidUpdate(prevProps, prevState){
         if (this.state.subreddits[0] !== prevState.subreddits[0]){
             this.props.navigation.setOptions({
-                headerTitle: this.state.subreddits.length == 0?'Frontpage':'r/'+this.state.subreddits[0],
-                headerRight: ()=>(<Icon name='search' size={26}
-                    onPress={()=>{
-                        this.toggleModal()
-                    }}
-                />),
-                headerRightContainerStyle:{
-                    padding: 13
-                }
+                headerTitle: this.state.subreddits.length == 0?'Frontpage':'r/'+this.state.subreddits[0]
             })
             const substring = this.state.subreddits.join('+')
             const subred = (this.state.subreddits.length !== 0? '/r/' : '/best')+substring
