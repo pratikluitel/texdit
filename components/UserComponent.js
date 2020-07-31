@@ -1,35 +1,49 @@
 import React, { Component } from 'react'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
-import { fetchPosts } from '../redux/ActionCreators'
-import { connect } from 'react-redux';
-
-const mapStateToProps = state => {
-    return {
-        posts: state.posts,
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    fetchPosts: (subreddits) => dispatch(fetchPosts(subreddits)),
-})
+import { baseurl } from '../shared/baseUrl'
 
 class User extends Component{
 
+    constructor(props){
+        super(props)
+        this.state = {
+            isLoading: true,
+            errMess: null,
+            posts:[]
+        }
+    }
+
     componentDidMount(){
         const substring = this.props.route.params.subreddits[0]
-        const subred = (this.props.route.params.subreddits.length !== 0? '/user/' : '')+substring
-        this.props.fetchPosts(subred)
+        const user = (this.props.route.params.subreddits.length !== 0? '/user/' : '')+substring
+        fetch(baseurl + user+'.json?limit=1000')
+        .then(response => {
+            if (response.ok) {
+            return response
+            } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText)
+            error.response = response;
+            throw error
+            }
+        },
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(posts => this.setState({ ...this.state, isLoading: false, errMess:null, posts: posts }))
+        .catch(error => this.setState({ ...this.state, isLoading: false, errMess:error }))
     }
 
     render(){
         return(
-            this.props.posts.isLoading?
+            this.state.isLoading?
             <Loading/>:
-            <PostList posts = {this.props.posts.posts} 
+            <PostList posts = {this.state.posts} 
             navigation={this.props.navigation}/>
         )
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default User;

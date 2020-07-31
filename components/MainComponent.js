@@ -92,7 +92,7 @@ export default class Main extends Component{
                                 />
                             </View>
                             <View
-                            style={{ flexDirection: 'row', alignItems:'flex-end'}}>
+                            style={{ flexDirection: 'row'}}>
                                 <Button 
                                     title='go'
                                     style={styles.openButton}

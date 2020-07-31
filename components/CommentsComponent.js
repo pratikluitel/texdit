@@ -4,18 +4,7 @@ import { Card, Icon } from 'react-native-elements'
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-display'
 import { Loading } from './LoadingComponent'
-import {fetchComments} from '../redux/ActionCreators'
-import { connect } from 'react-redux';
-
-const mapStateToProps = state => {
-    return {
-        comments: state.comments,
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    fetchComments: (permalink) => dispatch(fetchComments(permalink)),
-})
+import { baseurl } from '../shared/baseUrl'
 
 var n_reply=0;
 var max_reply_depth=2;
@@ -199,17 +188,43 @@ function RenderPage({item, navigation}){
 
 class Comments extends Component{
 
+    constructor(props){
+        super(props)
+        this.state={
+            isLoading: true,
+            errMess: null,
+            comments:[]
+        }
+    }
+
     componentDidMount(){
-        this.props.fetchComments(this.props.route.params.permalink)
+        fetch(baseurl +this.props.route.params.permalink+ '.json')
+        .then(response => {
+            if (response.ok) {
+            return response
+            } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText)
+            error.response = response
+            throw error
+            }
+        },
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(comments => this.setState({ ...this.state, errMess:null, comments: comments, isLoading: false }))
+        .catch(error => this.setState({ ...this.state, isLoading: false, errMess:error }))
     }
 
     render(){
+
         return( 
-            this.props.comments.isLoading?<Loading/>:
+            this.state.isLoading?<Loading/>:
             <FlatList
-                data={this.props.comments.comments}
+                data={this.state.comments}
                 renderItem={({item})=><RenderPage item={item}
-                                        navigation={this.props.navigation}/>}
+                    navigation={this.props.navigation}/>}
                 keyExtractor={item=>{
                    return( String(item.data.dist==null))
                 }}/>
@@ -255,4 +270,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+export default Comments;
