@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, Modal, View, Text, Button, StyleSheet } from 'react-native'
+import { TextInput, Modal, View, Button, StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -9,7 +9,6 @@ import User from './UserComponent'
 import Saved from './SavedComponent'
 import Settings from './SettingsComponent'
 import Comments from './CommentsComponent'
-
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

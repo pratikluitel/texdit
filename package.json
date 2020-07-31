@@ -15,6 +15,7 @@
     "@react-navigation/stack": "^5.7.1",
     "epoch-timeago": "^1.1.9",
     "expo": "~38.0.8",
+    "expo-cli": "^3.23.0",
     "expo-status-bar": "^1.0.2",
     "punycode": "^2.1.1",
     "react": "~16.11.0",
