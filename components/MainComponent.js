@@ -8,6 +8,7 @@ import User from './UserComponent'
 import Saved from './SavedComponent'
 import Settings from './SettingsComponent'
 import Comments from './CommentsComponent'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -20,11 +21,11 @@ const Com = (Component, name) => ({ navigation }) => {
                 component={Component}
                 options={{
                     headerLeft: () => (
-                        <Icon
-                            name="menu"
-                            size={26}
+                        <TouchableOpacity
                             onPress={() => navigation.toggleDrawer()}
-                        />
+                        >
+                            <Icon name="menu" size={26} />
+                        </TouchableOpacity>
                     ),
                     headerLeftContainerStyle: {
                         padding: 13,
