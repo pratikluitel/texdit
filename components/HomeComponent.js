@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { TextInput, Modal, View, Button, StyleSheet } from 'react-native'
+import {
+    TextInput,
+    Modal,
+    View,
+    Button,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native'
 import { Icon, Card } from 'react-native-elements'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
@@ -32,16 +39,37 @@ class Home extends Component {
                     ? 'Frontpage'
                     : 'r/' + this.state.subreddits[0],
             headerRight: () => (
-                <Icon
-                    name="search"
-                    size={26}
-                    onPress={() => {
-                        this.toggleModal()
-                    }}
-                />
+                <>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.state.subreddits.length != 0
+                                ? this.setState({
+                                      ...this.state,
+                                      posts: {
+                                          ...this.state.posts,
+                                          isLoading: true,
+                                      },
+                                      subreddits: [],
+                                  })
+                                : null
+                        }}
+                    >
+                        <Icon name="home" size={26} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.toggleModal()
+                        }}
+                    >
+                        <Icon name="search" size={26} />
+                    </TouchableOpacity>
+                </>
             ),
             headerRightContainerStyle: {
-                padding: 13,
+                width: '30%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
             },
         })
         const substring = this.state.subreddits.join('+')
