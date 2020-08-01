@@ -18,7 +18,7 @@ const RenderItem = ({ item, navigation }) => {
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('Comments', {
-                            permalink: item.data.permalink,
+                            item: item,
                         })
                     }}
                 >
