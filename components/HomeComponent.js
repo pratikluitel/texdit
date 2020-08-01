@@ -73,6 +73,19 @@ class Home extends Component {
                             borderRadius: 20,
                             justifyContent: 'center',
                         }}
+                        onPress={() => {}}
+                    >
+                        <Icon name="filter-list" size={26} />
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                        }}
                         onPress={() => {
                             this.toggleModal()
                         }}
@@ -82,7 +95,7 @@ class Home extends Component {
                 </>
             ),
             headerRightContainerStyle: {
-                width: '30%',
+                width: '45%',
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-around',

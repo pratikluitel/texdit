@@ -37,24 +37,39 @@ class User extends Component {
             headerTitle:
                 this.state.user == '' ? 'User' : 'u/' + this.state.user,
             headerRight: () => (
-                <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                    style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                    }}
-                    onPress={() => {
-                        this.toggleModal()
-                    }}
-                >
-                    <Icon name="search" size={26} />
-                </TouchableHighlight>
+                <>
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                        }}
+                        onPress={() => {}}
+                    >
+                        <Icon name="filter-list" size={26} />
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                        }}
+                        onPress={() => {
+                            this.toggleModal()
+                        }}
+                    >
+                        <Icon name="search" size={26} />
+                    </TouchableHighlight>
+                </>
             ),
             headerRightContainerStyle: {
-                width: '15%',
+                width: '30%',
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-around',

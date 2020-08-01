@@ -8,7 +8,10 @@ import User from './UserComponent'
 import Saved from './SavedComponent'
 import Settings from './SettingsComponent'
 import Comments from './CommentsComponent'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import {
+    TouchableOpacity,
+    TouchableHighlight,
+} from 'react-native-gesture-handler'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -33,7 +36,33 @@ const Com = (Component, name) => ({ navigation }) => {
                 }}
             />
             {name != 'Settings' ? (
-                <Stack.Screen name={'Comments'} component={Comments} />
+                <Stack.Screen
+                    name={'Comments'}
+                    component={Comments}
+                    options={{
+                        headerRight: () => (
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 20,
+                                    justifyContent: 'center',
+                                }}
+                                onPress={() => {}}
+                            >
+                                <Icon name="filter-list" size={26} />
+                            </TouchableHighlight>
+                        ),
+                        headerRightContainerStyle: {
+                            width: '15%',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-around',
+                        },
+                    }}
+                />
             ) : null}
         </Stack.Navigator>
     )

@@ -263,7 +263,7 @@ class Comments extends Component {
                 : null
         return (
             <ScrollView>
-                {item.data.preview != 'undefined' ? (
+                {image != null ? (
                     <Card
                         title={item.data.title}
                         titleStyle={{
