@@ -5,7 +5,7 @@ import {
     View,
     Button,
     StyleSheet,
-    TouchableOpacity,
+    TouchableHighlight,
 } from 'react-native'
 import { Icon, Card } from 'react-native-elements'
 import PostList from './PostListComponent'
@@ -40,7 +40,15 @@ class Home extends Component {
                     : 'r/' + this.state.subreddits[0],
             headerRight: () => (
                 <>
-                    <TouchableOpacity
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                        }}
                         onPress={() => {
                             this.state.subreddits.length != 0
                                 ? this.setState({
@@ -55,14 +63,22 @@ class Home extends Component {
                         }}
                     >
                         <Icon name="home" size={26} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                        }}
                         onPress={() => {
                             this.toggleModal()
                         }}
                     >
                         <Icon name="search" size={26} />
-                    </TouchableOpacity>
+                    </TouchableHighlight>
                 </>
             ),
             headerRightContainerStyle: {
