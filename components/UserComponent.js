@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { TextInput, Modal, View, Button, StyleSheet } from 'react-native'
+import {
+    TextInput,
+    Modal,
+    View,
+    Button,
+    StyleSheet,
+    TouchableHighlight,
+} from 'react-native'
 import { Icon, Card } from 'react-native-elements'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
@@ -30,16 +37,27 @@ class User extends Component {
             headerTitle:
                 this.state.user == '' ? 'User' : 'u/' + this.state.user,
             headerRight: () => (
-                <Icon
-                    name="search"
-                    size={26}
+                <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                    }}
                     onPress={() => {
                         this.toggleModal()
                     }}
-                />
+                >
+                    <Icon name="search" size={26} />
+                </TouchableHighlight>
             ),
             headerRightContainerStyle: {
-                padding: 13,
+                width: '15%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
             },
         })
         const user =
