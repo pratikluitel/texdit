@@ -5,8 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Icon } from 'react-native-elements'
 import Home from './HomeComponent'
 import User from './UserComponent'
-import Saved from './SavedComponent'
-import Settings from './SettingsComponent'
 import Comments from './CommentsComponent'
 import {
     TouchableOpacity,
@@ -92,14 +90,9 @@ export default class Main extends Component {
                         name="Profile"
                         component={Com(User, 'Profile')}
                     />
-                    <Drawer.Screen
-                        name="Saved"
-                        component={Com(Saved, 'Saved')}
-                    />
-                    <Drawer.Screen
-                        name="Settings"
-                        component={Com(Settings, 'Settings')}
-                    />
+                    {/* Saved
+                    and Settings
+                    /> */}
                     {/*  A rate button 
                         and a share button */}
                 </Drawer.Navigator>
