@@ -19,6 +19,7 @@
     "expo-status-bar": "^1.0.2",
     "global": "^4.4.0",
     "punycode": "^2.1.1",
+    "radio-buttons-react-native": "^1.0.4",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",

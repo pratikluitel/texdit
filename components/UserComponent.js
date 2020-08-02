@@ -21,6 +21,7 @@ class User extends Component {
             user: '',
             tempuser: '',
             filter: '',
+            time: '',
             modalVisible: false,
             posts: {
                 isLoading: true,
@@ -30,6 +31,7 @@ class User extends Component {
         }
     }
     _menu = null
+    _menuTime = null
 
     setMenuRef = (ref) => {
         this._menu = ref
@@ -41,6 +43,18 @@ class User extends Component {
 
     showMenu = () => {
         this._menu.show()
+    }
+
+    setMenuTimeRef = (ref) => {
+        this._menuTime = ref
+    }
+
+    hideMenuTime = () => {
+        this._menuTime.hide()
+    }
+
+    showMenuTime = () => {
+        this._menuTime.show()
     }
 
     toggleModal = () => {
@@ -216,11 +230,10 @@ class User extends Component {
             },
         })
         const user = '/user/' + this.state.user
-        console.log(
-            baseurl + user + `.json?limit=1000&sort=${this.state.filter}&t=all`
-        )
         fetch(
-            baseurl + user + `.json?limit=1000&sort=${this.state.filter}&t=all`
+            baseurl +
+                user +
+                `.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
         )
             .then(
                 (response) => {
@@ -267,7 +280,7 @@ class User extends Component {
             })
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         if (
             this.state.user !== prevState.user ||
             this.state.filter != prevState.filter
@@ -301,10 +314,11 @@ class User extends Component {
             })
             const substring = this.state.user
             const user = '/user/' + substring
-            console.log(
-                baseurl + user + `.json?limit=1000&sort=${this.state.filter}`
+            fetch(
+                baseurl +
+                    user +
+                    `.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
             )
-            fetch(baseurl + user + `.json?limit=1000&sort=${this.state.filter}`)
                 .then(
                     (response) => {
                         if (response.ok) {
@@ -387,6 +401,7 @@ class User extends Component {
                                                 ...this.state,
                                                 user: this.state.tempuser,
                                                 tempuser: '',
+                                                filter: '',
                                                 posts: {
                                                     ...this.state.posts,
                                                     isLoading: true,

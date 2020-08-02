@@ -22,6 +22,8 @@ class Home extends Component {
             tempsub: '',
             modalVisible: false,
             filter: '',
+            time: '',
+            timeModalVisible: false,
             posts: {
                 isLoading: true,
                 errMess: null,
@@ -30,6 +32,7 @@ class Home extends Component {
         }
     }
     _menu = null
+    _menuTime = null
 
     setMenuRef = (ref) => {
         this._menu = ref
@@ -43,8 +46,27 @@ class Home extends Component {
         this._menu.show()
     }
 
+    setMenuTimeRef = (ref) => {
+        this._menuTime = ref
+    }
+
+    hideMenuTime = () => {
+        this._menuTime.hide()
+    }
+
+    showMenuTime = () => {
+        this._menuTime.show()
+    }
+
     toggleModal = () => {
         this.setState({ ...this.state, modalVisible: !this.state.modalVisible })
+    }
+
+    toggleTimeModal = () => {
+        this.setState({
+            ...this.state,
+            timeModalVisible: !this.state.timeModalVisible,
+        })
     }
 
     renderFilter() {
@@ -60,9 +82,11 @@ class Home extends Component {
                         justifyContent: 'center',
                     }}
                     onPress={() => {
-                        this.state.subreddits.length != 0
+                        this.state.subreddits.length != 0 ||
+                        this.state.filter.length != 0
                             ? this.setState({
                                   ...this.state,
+                                  filter: '',
                                   posts: {
                                       ...this.state.posts,
                                       isLoading: true,
@@ -76,7 +100,6 @@ class Home extends Component {
                 </TouchableHighlight>
                 <Menu
                     ref={this.setMenuRef}
-                    disabledTextColor="#000000"
                     button={
                         <TouchableHighlight
                             activeOpacity={0.6}
@@ -99,7 +122,6 @@ class Home extends Component {
                     <MenuDivider />
                     <MenuItem
                         onPress={() => {
-                            this.hideMenu()
                             this.setState({
                                 ...this.state,
                                 filter: 'best',
@@ -108,28 +130,30 @@ class Home extends Component {
                                     isLoading: true,
                                 },
                             })
+                            this.hideMenu()
                         }}
                     >
                         Best
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
+                            // this.setState({
+                            //     ...this.state,
+                            //     filter: 'top',
+                            //     posts: {
+                            //         ...this.state.posts,
+                            //         isLoading: true,
+                            //     },
+                            // })
+
+                            this.toggleTimeModal()
                             this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'top',
-                                posts: {
-                                    ...this.state.posts,
-                                    isLoading: true,
-                                },
-                            })
                         }}
                     >
                         Top
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
-                            this.hideMenu()
                             this.setState({
                                 ...this.state,
                                 filter: 'new',
@@ -138,13 +162,13 @@ class Home extends Component {
                                     isLoading: true,
                                 },
                             })
+                            this.hideMenu()
                         }}
                     >
                         New
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
-                            this.hideMenu()
                             this.setState({
                                 ...this.state,
                                 filter: 'hot',
@@ -153,13 +177,13 @@ class Home extends Component {
                                     isLoading: true,
                                 },
                             })
+                            this.hideMenu()
                         }}
                     >
                         Hot
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
-                            this.hideMenu()
                             this.setState({
                                 ...this.state,
                                 filter: 'rising',
@@ -168,13 +192,13 @@ class Home extends Component {
                                     isLoading: true,
                                 },
                             })
+                            this.hideMenu()
                         }}
                     >
                         Rising
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
-                            this.hideMenu()
                             this.setState({
                                 ...this.state,
                                 filter: 'controversial',
@@ -183,6 +207,8 @@ class Home extends Component {
                                     isLoading: true,
                                 },
                             })
+                            this.hideMenu()
+                            this.toggleTimeModal()
                         }}
                     >
                         Controversial
@@ -244,7 +270,12 @@ class Home extends Component {
         const substring = this.state.subreddits.join('+')
         const subred =
             this.state.subreddits.length !== 0 ? '/r/' + substring : ''
-        fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000`)
+
+        fetch(
+            baseurl +
+                subred +
+                `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
+        )
             .then(
                 (response) => {
                     if (response.ok) {
@@ -289,10 +320,11 @@ class Home extends Component {
                     })
             })
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         if (
             this.state.subreddits[0] !== prevState.subreddits[0] ||
-            this.state.filter != prevState.filter
+            this.state.filter != prevState.filter ||
+            this.state.time != prevState.time
         ) {
             this.props.navigation.setOptions({
                 headerTitle: (
@@ -320,14 +352,15 @@ class Home extends Component {
                 ),
                 headerRight: () => this.renderFilter(),
             })
+
             const substring = this.state.subreddits.join('+')
             const subred =
                 this.state.subreddits.length !== 0 ? '/r/' + substring : ''
-            console.log(
-                baseurl + subred + `/${this.state.filter}/.json?limit=1000`
+            fetch(
+                baseurl +
+                    subred +
+                    `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
             )
-
-            fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000`)
                 .then(
                     (response) => {
                         if (response.ok) {
@@ -414,6 +447,7 @@ class Home extends Component {
                                                         ? []
                                                         : [this.state.tempsub],
                                                 tempsub: '',
+                                                filter: '',
                                                 posts: {
                                                     ...this.state.posts,
                                                     isLoading: true,
@@ -433,6 +467,144 @@ class Home extends Component {
                         </Card>
                     </View>
                 </Modal>
+                <Modal transparent visible={this.state.timeModalVisible}>
+                    <View style={styles.timeModal}>
+                        <Card>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            filter: 'top',
+                                            time: 'hour',
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>Hour</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            filter: 'top',
+                                            time: 'day',
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>Day</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            filter: 'top',
+                                            time: 'week',
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>Week</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            filter: 'top',
+                                            time: 'month',
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>Month</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                            filter: 'top',
+                                            time: 'year',
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>Year</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                onPress={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            filter: 'top',
+                                            time: 'all',
+                                            posts: {
+                                                ...this.state.posts,
+                                                isLoading: true,
+                                            },
+                                        },
+                                        () => this.toggleTimeModal()
+                                    )
+                                }}
+                            >
+                                <View style={styles.timeModalOptions}>
+                                    <Text>All Time</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </Card>
+                    </View>
+                </Modal>
             </>
         )
     }
@@ -448,6 +620,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    timeModal: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    timeModalOptions: {
+        padding: 20,
     },
     modalView: {
         margin: 20,
