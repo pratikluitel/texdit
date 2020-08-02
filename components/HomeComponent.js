@@ -47,6 +47,166 @@ class Home extends Component {
         this.setState({ ...this.state, modalVisible: !this.state.modalVisible })
     }
 
+    renderFilter() {
+        return (
+            <>
+                <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                    }}
+                    onPress={() => {
+                        this.state.subreddits.length != 0
+                            ? this.setState({
+                                  ...this.state,
+                                  posts: {
+                                      ...this.state.posts,
+                                      isLoading: true,
+                                  },
+                                  subreddits: [],
+                              })
+                            : null
+                    }}
+                >
+                    <Icon name="home" size={26} />
+                </TouchableHighlight>
+                <Menu
+                    ref={this.setMenuRef}
+                    disabledTextColor="#000000"
+                    button={
+                        <TouchableHighlight
+                            activeOpacity={0.6}
+                            underlayColor="#DDDDDD"
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                justifyContent: 'center',
+                            }}
+                            onPress={this.showMenu}
+                        >
+                            <Icon name="filter-list" size={26} />
+                        </TouchableHighlight>
+                    }
+                >
+                    <MenuItem onPress={() => {}} disabled>
+                        Sort by:
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'best',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Best
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'top',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Top
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'new',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        New
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'hot',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Hot
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'rising',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Rising
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'controversial',
+                                posts: {
+                                    ...this.state.posts,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Controversial
+                    </MenuItem>
+                </Menu>
+                <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                    }}
+                    onPress={() => {
+                        this.toggleModal()
+                    }}
+                >
+                    <Icon name="search" size={26} />
+                </TouchableHighlight>
+            </>
+        )
+    }
+
     componentDidMount() {
         this.mounted = true
         this.props.navigation.setOptions({
@@ -73,163 +233,7 @@ class Home extends Component {
                     </Text>
                 </>
             ),
-            headerRight: () => (
-                <>
-                    <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="#DDDDDD"
-                        style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 20,
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => {
-                            this.state.subreddits.length != 0
-                                ? this.setState({
-                                      ...this.state,
-                                      posts: {
-                                          ...this.state.posts,
-                                          isLoading: true,
-                                      },
-                                      subreddits: [],
-                                  })
-                                : null
-                        }}
-                    >
-                        <Icon name="home" size={26} />
-                    </TouchableHighlight>
-                    <Menu
-                        ref={this.setMenuRef}
-                        disabledTextColor="#000000"
-                        button={
-                            <TouchableHighlight
-                                activeOpacity={0.6}
-                                underlayColor="#DDDDDD"
-                                style={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: 20,
-                                    justifyContent: 'center',
-                                }}
-                                onPress={this.showMenu}
-                            >
-                                <Icon name="filter-list" size={26} />
-                            </TouchableHighlight>
-                        }
-                    >
-                        <MenuItem onPress={() => {}} disabled>
-                            Sort by:
-                        </MenuItem>
-                        <MenuDivider />
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'best',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            Best
-                        </MenuItem>
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'top',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            Top
-                        </MenuItem>
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'new',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            New
-                        </MenuItem>
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'hot',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            Hot
-                        </MenuItem>
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'rising',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            Rising
-                        </MenuItem>
-                        <MenuItem
-                            onPress={() => {
-                                this.hideMenu()
-                                this.setState({
-                                    ...this.state,
-                                    filter: 'controversial',
-                                    posts: {
-                                        ...this.state.posts,
-                                        isLoading: true,
-                                    },
-                                })
-                            }}
-                        >
-                            Controversial
-                        </MenuItem>
-                    </Menu>
-                    <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="#DDDDDD"
-                        style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 20,
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => {
-                            this.toggleModal()
-                        }}
-                    >
-                        <Icon name="search" size={26} />
-                    </TouchableHighlight>
-                </>
-            ),
+            headerRight: () => this.renderFilter(),
             headerRightContainerStyle: {
                 width: '45%',
                 flexDirection: 'row',
@@ -314,163 +318,7 @@ class Home extends Component {
                         </Text>
                     </>
                 ),
-                headerRight: () => (
-                    <>
-                        <TouchableHighlight
-                            activeOpacity={0.6}
-                            underlayColor="#DDDDDD"
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 20,
-                                justifyContent: 'center',
-                            }}
-                            onPress={() => {
-                                this.state.subreddits.length != 0
-                                    ? this.setState({
-                                          ...this.state,
-                                          posts: {
-                                              ...this.state.posts,
-                                              isLoading: true,
-                                          },
-                                          subreddits: [],
-                                      })
-                                    : null
-                            }}
-                        >
-                            <Icon name="home" size={26} />
-                        </TouchableHighlight>
-                        <Menu
-                            ref={this.setMenuRef}
-                            disabledTextColor="#000000"
-                            button={
-                                <TouchableHighlight
-                                    activeOpacity={0.6}
-                                    underlayColor="#DDDDDD"
-                                    style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 20,
-                                        justifyContent: 'center',
-                                    }}
-                                    onPress={this.showMenu}
-                                >
-                                    <Icon name="filter-list" size={26} />
-                                </TouchableHighlight>
-                            }
-                        >
-                            <MenuItem onPress={() => {}} disabled>
-                                Sort by:
-                            </MenuItem>
-                            <MenuDivider />
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'best',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                Best
-                            </MenuItem>
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'top',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                Top
-                            </MenuItem>
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'new',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                New
-                            </MenuItem>
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'hot',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                Hot
-                            </MenuItem>
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'rising',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                Rising
-                            </MenuItem>
-                            <MenuItem
-                                onPress={() => {
-                                    this.hideMenu()
-                                    this.setState({
-                                        ...this.state,
-                                        filter: 'controversial',
-                                        posts: {
-                                            ...this.state.posts,
-                                            isLoading: true,
-                                        },
-                                    })
-                                }}
-                            >
-                                Controversial
-                            </MenuItem>
-                        </Menu>
-                        <TouchableHighlight
-                            activeOpacity={0.6}
-                            underlayColor="#DDDDDD"
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 20,
-                                justifyContent: 'center',
-                            }}
-                            onPress={() => {
-                                this.toggleModal()
-                            }}
-                        >
-                            <Icon name="search" size={26} />
-                        </TouchableHighlight>
-                    </>
-                ),
+                headerRight: () => this.renderFilter(),
             })
             const substring = this.state.subreddits.join('+')
             const subred =
