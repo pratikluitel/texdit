@@ -240,7 +240,7 @@ class Home extends Component {
         const substring = this.state.subreddits.join('+')
         const subred =
             this.state.subreddits.length !== 0 ? '/r/' + substring : ''
-        fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000&t=all`)
+        fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000`)
             .then(
                 (response) => {
                     if (response.ok) {

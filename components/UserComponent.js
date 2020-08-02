@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
 } from 'react-native'
 import { Icon, Card } from 'react-native-elements'
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
 import { baseurl } from '../shared/baseUrl'
@@ -27,6 +28,19 @@ class User extends Component {
                 posts: [],
             },
         }
+    }
+    _menu = null
+
+    setMenuRef = (ref) => {
+        this._menu = ref
+    }
+
+    hideMenu = () => {
+        this._menu.hide()
+    }
+
+    showMenu = () => {
+        this._menu.show()
     }
 
     toggleModal = () => {
@@ -59,19 +73,120 @@ class User extends Component {
             ),
             headerRight: () => (
                 <>
-                    <TouchableHighlight
-                        activeOpacity={0.6}
-                        underlayColor="#DDDDDD"
-                        style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 20,
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => {}}
+                    <Menu
+                        ref={this.setMenuRef}
+                        disabledTextColor="#000000"
+                        button={
+                            <TouchableHighlight
+                                activeOpacity={0.6}
+                                underlayColor="#DDDDDD"
+                                style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 20,
+                                    justifyContent: 'center',
+                                }}
+                                onPress={this.showMenu}
+                            >
+                                <Icon name="filter-list" size={26} />
+                            </TouchableHighlight>
+                        }
                     >
-                        <Icon name="filter-list" size={26} />
-                    </TouchableHighlight>
+                        <MenuItem onPress={() => {}} disabled>
+                            Sort by:
+                        </MenuItem>
+                        <MenuDivider />
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'best',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            Best
+                        </MenuItem>
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'top',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            Top
+                        </MenuItem>
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'new',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            New
+                        </MenuItem>
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'hot',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            Hot
+                        </MenuItem>
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'rising',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            Rising
+                        </MenuItem>
+                        <MenuItem
+                            onPress={() => {
+                                this.hideMenu()
+                                this.setState({
+                                    ...this.state,
+                                    filter: 'controversial',
+                                    posts: {
+                                        ...this.state.posts,
+                                        isLoading: true,
+                                    },
+                                })
+                            }}
+                        >
+                            Controversial
+                        </MenuItem>
+                    </Menu>
                     <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="#DDDDDD"
@@ -149,7 +264,10 @@ class User extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.user !== prevState.user) {
+        if (
+            this.state.user !== prevState.user ||
+            this.state.filter != prevState.filter
+        ) {
             this.props.navigation.setOptions({
                 headerTitle: (
                     <>
@@ -174,19 +292,146 @@ class User extends Component {
                         </Text>
                     </>
                 ),
+                headerRight: () => (
+                    <>
+                        <Menu
+                            ref={this.setMenuRef}
+                            disabledTextColor="#000000"
+                            button={
+                                <TouchableHighlight
+                                    activeOpacity={0.6}
+                                    underlayColor="#DDDDDD"
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 20,
+                                        justifyContent: 'center',
+                                    }}
+                                    onPress={this.showMenu}
+                                >
+                                    <Icon name="filter-list" size={26} />
+                                </TouchableHighlight>
+                            }
+                        >
+                            <MenuItem onPress={() => {}} disabled>
+                                Sort by:
+                            </MenuItem>
+                            <MenuDivider />
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'best',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                Best
+                            </MenuItem>
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'top',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                Top
+                            </MenuItem>
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'new',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                New
+                            </MenuItem>
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'hot',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                Hot
+                            </MenuItem>
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'rising',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                Rising
+                            </MenuItem>
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: 'controversial',
+                                        posts: {
+                                            ...this.state.posts,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                Controversial
+                            </MenuItem>
+                        </Menu>
+                        <TouchableHighlight
+                            activeOpacity={0.6}
+                            underlayColor="#DDDDDD"
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => {
+                                this.toggleModal()
+                            }}
+                        >
+                            <Icon name="search" size={26} />
+                        </TouchableHighlight>
+                    </>
+                ),
             })
             const substring = this.state.user
             const user = '/user/' + substring
             console.log(
-                baseurl +
-                    user +
-                    `.json?limit=1000&sort=${this.state.filter}&t=all`
+                baseurl + user + `.json?limit=1000&sort=${this.state.filter}`
             )
-            fetch(
-                baseurl +
-                    user +
-                    `.json?limit=1000&sort=${this.state.filter}&t=all`
-            )
+            fetch(baseurl + user + `.json?limit=1000&sort=${this.state.filter}`)
                 .then(
                     (response) => {
                         if (response.ok) {
