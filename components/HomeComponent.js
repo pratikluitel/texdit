@@ -6,6 +6,7 @@ import {
     Button,
     StyleSheet,
     TouchableHighlight,
+    Text,
 } from 'react-native'
 import { Icon, Card } from 'react-native-elements'
 import PostList from './PostListComponent'
@@ -19,6 +20,7 @@ class Home extends Component {
             subreddits: [],
             tempsub: '',
             modalVisible: false,
+            filter: '',
             posts: {
                 isLoading: true,
                 errMess: null,
@@ -34,10 +36,29 @@ class Home extends Component {
     componentDidMount() {
         this.mounted = true
         this.props.navigation.setOptions({
-            headerTitle:
-                this.state.subreddits.length == 0
-                    ? 'Frontpage'
-                    : 'r/' + this.state.subreddits[0],
+            headerTitle: (
+                <>
+                    {this.state.subreddits.length == 0 ? (
+                        <Text>
+                            Frontpage{this.state.filter == '' ? null : ':'}{' '}
+                        </Text>
+                    ) : (
+                        <Text>
+                            r/{this.state.subreddits[0]}
+                            {this.state.filter == '' ? null : ':'}{' '}
+                        </Text>
+                    )}
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            textTransform: 'capitalize',
+                            color: 'gray',
+                        }}
+                    >
+                        {this.state.filter}
+                    </Text>
+                </>
+            ),
             headerRight: () => (
                 <>
                     <TouchableHighlight
@@ -103,8 +124,9 @@ class Home extends Component {
         })
         const substring = this.state.subreddits.join('+')
         const subred =
-            (this.state.subreddits.length !== 0 ? '/r/' : '/best') + substring
-        fetch(baseurl + subred + '.json?limit=1000')
+            this.state.subreddits.length !== 0 ? '/r/' + substring : ''
+        console.log(baseurl + subred + `/${this.state.filter}/.json?limit=1000`)
+        fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000&t=all`)
             .then(
                 (response) => {
                     if (response.ok) {
@@ -150,18 +172,40 @@ class Home extends Component {
             })
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.subreddits[0] !== prevState.subreddits[0]) {
+        if (
+            this.state.subreddits[0] !== prevState.subreddits[0] ||
+            this.state.filter != prevState.filter
+        ) {
             this.props.navigation.setOptions({
-                headerTitle:
-                    this.state.subreddits.length == 0
-                        ? 'Frontpage'
-                        : 'r/' + this.state.subreddits[0],
+                headerTitle: (
+                    <>
+                        {this.state.subreddits.length == 0 ? (
+                            <Text>
+                                Frontpage{this.state.filter == '' ? null : ':'}{' '}
+                            </Text>
+                        ) : (
+                            <Text>
+                                r/{this.state.subreddits[0]}
+                                {this.state.filter == '' ? null : ':'}{' '}
+                            </Text>
+                        )}
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                textTransform: 'capitalize',
+                                color: 'gray',
+                            }}
+                        >
+                            {this.state.filter}
+                        </Text>
+                    </>
+                ),
             })
             const substring = this.state.subreddits.join('+')
             const subred =
                 (this.state.subreddits.length !== 0 ? '/r/' : '/best') +
                 substring
-            fetch(baseurl + subred + '.json?limit=1000')
+            fetch(baseurl + subred + `/${this.state.filter}/.json?limit=1000`)
                 .then(
                     (response) => {
                         if (response.ok) {

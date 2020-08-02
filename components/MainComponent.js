@@ -31,7 +31,11 @@ const Com = (Component, name) => ({ navigation }) => {
                         </TouchableOpacity>
                     ),
                     headerLeftContainerStyle: {
-                        padding: 13,
+                        marginLeft: 12,
+                        alignItems: 'center',
+                    },
+                    headerTitleContainerStyle: {
+                        left: 60,
                     },
                 }}
             />
@@ -40,6 +44,12 @@ const Com = (Component, name) => ({ navigation }) => {
                     name={'Comments'}
                     component={Comments}
                     options={{
+                        headerLeftContainerStyle: {
+                            alignItems: 'center',
+                        },
+                        headerTitleContainerStyle: {
+                            left: 60,
+                        },
                         headerRight: () => (
                             <TouchableHighlight
                                 activeOpacity={0.6}

@@ -200,6 +200,7 @@ class Comments extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            filter: '',
             comments: {
                 isLoading: true,
                 errMess: null,

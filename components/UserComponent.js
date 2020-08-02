@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    Text,
     TextInput,
     Modal,
     View,
@@ -18,6 +19,7 @@ class User extends Component {
         this.state = {
             user: '',
             tempuser: '',
+            filter: '',
             modalVisible: false,
             posts: {
                 isLoading: true,
@@ -34,8 +36,27 @@ class User extends Component {
     componentDidMount() {
         this.mounted = true
         this.props.navigation.setOptions({
-            headerTitle:
-                this.state.user == '' ? 'User' : 'u/' + this.state.user,
+            headerTitle: (
+                <>
+                    {this.state.user == '' ? (
+                        <Text>User{this.state.filter == '' ? null : ':'} </Text>
+                    ) : (
+                        <Text>
+                            u/{this.state.user}
+                            {this.state.filter == '' ? null : ':'}{' '}
+                        </Text>
+                    )}
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            textTransform: 'capitalize',
+                            color: 'gray',
+                        }}
+                    >
+                        {this.state.filter}
+                    </Text>
+                </>
+            ),
             headerRight: () => (
                 <>
                     <TouchableHighlight
@@ -75,10 +96,13 @@ class User extends Component {
                 justifyContent: 'space-around',
             },
         })
-        const user =
-            (this.state.user.length !== 0 ? '/user/' : '') + this.state.user
-        console.log(baseurl + user + '.json?limit=1000')
-        fetch(baseurl + user + '.json?limit=1000')
+        const user = '/user/' + this.state.user
+        console.log(
+            baseurl + user + `.json?limit=1000&sort=${this.state.filter}&t=all`
+        )
+        fetch(
+            baseurl + user + `.json?limit=1000&sort=${this.state.filter}&t=all`
+        )
             .then(
                 (response) => {
                     if (response.ok) {
@@ -127,15 +151,42 @@ class User extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.user !== prevState.user) {
             this.props.navigation.setOptions({
-                headerTitle:
-                    this.state.user.length == 0
-                        ? 'User'
-                        : 'u/' + this.state.user,
+                headerTitle: (
+                    <>
+                        {this.state.user == '' ? (
+                            <Text>
+                                User{this.state.filter == '' ? null : ':'}{' '}
+                            </Text>
+                        ) : (
+                            <Text>
+                                u/{this.state.user}
+                                {this.state.filter == '' ? null : ':'}{' '}
+                            </Text>
+                        )}
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                textTransform: 'capitalize',
+                                color: 'gray',
+                            }}
+                        >
+                            {this.state.filter}
+                        </Text>
+                    </>
+                ),
             })
             const substring = this.state.user
-            const user =
-                (this.state.user.length !== 0 ? '/user/' : '') + substring
-            fetch(baseurl + user + '.json?limit=1000')
+            const user = '/user/' + substring
+            console.log(
+                baseurl +
+                    user +
+                    `.json?limit=1000&sort=${this.state.filter}&t=all`
+            )
+            fetch(
+                baseurl +
+                    user +
+                    `.json?limit=1000&sort=${this.state.filter}&t=all`
+            )
                 .then(
                     (response) => {
                         if (response.ok) {
