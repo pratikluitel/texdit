@@ -137,15 +137,6 @@ class Home extends Component {
                     </MenuItem>
                     <MenuItem
                         onPress={() => {
-                            // this.setState({
-                            //     ...this.state,
-                            //     filter: 'top',
-                            //     posts: {
-                            //         ...this.state.posts,
-                            //         isLoading: true,
-                            //     },
-                            // })
-
                             this.toggleTimeModal()
                             this.hideMenu()
                         }}
