@@ -261,7 +261,7 @@ class Comments extends Component {
                       item.data.preview.images[0].resolutions.length - 1
                   ]
                 : null
-        return (
+        return this.state.comments.isLoading ? (
             <ScrollView>
                 {image != null ? (
                     <Card
@@ -305,14 +305,29 @@ class Comments extends Component {
                             </Text>
                         </View>
                         <View style={styles.postInfo}>
-                            <Text style={{ fontSize: 13, color: '#007aff' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#007aff',
+                                }}
+                            >
                                 {item.data.subreddit_name_prefixed}
                             </Text>
-                            <Text style={{ fontSize: 13, color: '#4c4c4c' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#4c4c4c',
+                                }}
+                            >
                                 {' '}
                                 •
                             </Text>
-                            <Text style={{ fontSize: 13, color: '#007aff' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#007aff',
+                                }}
+                            >
                                 {' '}
                                 u/{item.data.author}
                             </Text>
@@ -323,7 +338,9 @@ class Comments extends Component {
                                 type="feather"
                                 size={15}
                                 color="gray"
-                                style={{ textAlign: 'left' }}
+                                style={{
+                                    textAlign: 'left',
+                                }}
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
@@ -334,7 +351,9 @@ class Comments extends Component {
                                 type="font-awesome"
                                 size={15}
                                 color="gray"
-                                style={{ textAlign: 'left' }}
+                                style={{
+                                    textAlign: 'left',
+                                }}
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
@@ -373,14 +392,29 @@ class Comments extends Component {
                             </Text>
                         </View>
                         <View style={styles.postInfo}>
-                            <Text style={{ fontSize: 13, color: '#007aff' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#007aff',
+                                }}
+                            >
                                 {item.data.subreddit_name_prefixed}
                             </Text>
-                            <Text style={{ fontSize: 13, color: '#4c4c4c' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#4c4c4c',
+                                }}
+                            >
                                 {' '}
                                 •
                             </Text>
-                            <Text style={{ fontSize: 13, color: '#007aff' }}>
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    color: '#007aff',
+                                }}
+                            >
                                 {' '}
                                 u/{item.data.author}
                             </Text>
@@ -391,7 +425,9 @@ class Comments extends Component {
                                 type="feather"
                                 size={15}
                                 color="gray"
-                                style={{ textAlign: 'left' }}
+                                style={{
+                                    textAlign: 'left',
+                                }}
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
@@ -402,7 +438,9 @@ class Comments extends Component {
                                 type="font-awesome"
                                 size={15}
                                 color="gray"
-                                style={{ textAlign: 'left' }}
+                                style={{
+                                    textAlign: 'left',
+                                }}
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
@@ -411,41 +449,223 @@ class Comments extends Component {
                         </View>
                     </Card>
                 )}
-                {this.state.comments.isLoading ? (
-                    <Loading />
-                ) : (
-                    <FlatList
-                        data={this.state.comments.comments}
-                        renderItem={({ item }) => (
-                            <RenderPage
-                                item={item}
-                                navigation={this.props.navigation}
-                            />
-                        )}
-                        keyExtractor={(item) => {
-                            return String(item.data.dist == null)
-                        }}
+                <Loading />
+            </ScrollView>
+        ) : (
+            <FlatList
+                ListHeaderComponent={() => {
+                    return (
+                        <>
+                            {image != null ? (
+                                <Card
+                                    title={item.data.title}
+                                    titleStyle={{
+                                        marginHorizontal: 15,
+                                        textAlign: 'left',
+                                        fontSize: 18,
+                                        marginBottom: 10,
+                                    }}
+                                    dividerStyle={{
+                                        marginBottom: 5,
+                                    }}
+                                    image={{
+                                        uri: image.url.replace(/&amp;/g, '&'),
+                                    }}
+                                    imageStyle={{
+                                        resizeMode: 'cover',
+                                        width: '100%',
+                                        height:
+                                            (image.height / image.width) *
+                                            (Dimensions.get('window').width -
+                                                30),
+                                        marginBottom: 10,
+                                    }}
+                                >
+                                    {item.data.selftext != '' ? (
+                                        <View style={styles.selfText}>
+                                            <Markdown>
+                                                {item.data.selftext}
+                                            </Markdown>
+                                        </View>
+                                    ) : null}
+                                    <View style={{ marginBottom: 5 }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#4c4c4c',
+                                                textAlign: 'right',
+                                            }}
+                                        >
+                                            {' '}
+                                            {timeago(
+                                                item.data.created_utc * 1000
+                                            )}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.postInfo}>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#007aff',
+                                            }}
+                                        >
+                                            {item.data.subreddit_name_prefixed}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#4c4c4c',
+                                            }}
+                                        >
+                                            {' '}
+                                            •
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#007aff',
+                                            }}
+                                        >
+                                            {' '}
+                                            u/{item.data.author}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.statusRow}>
+                                        <Icon
+                                            name="arrow-up"
+                                            type="feather"
+                                            size={15}
+                                            color="gray"
+                                            style={{
+                                                textAlign: 'left',
+                                            }}
+                                        />
+                                        <Text style={{ color: 'gray' }}>
+                                            {' '}
+                                            {item.data.score} points{' '}
+                                        </Text>
+                                        <Icon
+                                            name="comment-o"
+                                            type="font-awesome"
+                                            size={15}
+                                            color="gray"
+                                            style={{
+                                                textAlign: 'left',
+                                            }}
+                                        />
+                                        <Text style={{ color: 'gray' }}>
+                                            {' '}
+                                            {item.data.num_comments} comments
+                                        </Text>
+                                    </View>
+                                </Card>
+                            ) : (
+                                <Card
+                                    title={item.data.title}
+                                    titleStyle={{
+                                        marginHorizontal: 0,
+                                        textAlign: 'left',
+                                        fontSize: 18,
+                                        marginBottom: 10,
+                                    }}
+                                    dividerStyle={{
+                                        marginBottom: 10,
+                                    }}
+                                >
+                                    {item.data.selftext != '' ? (
+                                        <View style={styles.selfText}>
+                                            <Markdown>
+                                                {item.data.selftext}
+                                            </Markdown>
+                                        </View>
+                                    ) : null}
+                                    <View style={{ marginBottom: 5 }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#4c4c4c',
+                                                textAlign: 'right',
+                                            }}
+                                        >
+                                            {' '}
+                                            {timeago(
+                                                item.data.created_utc * 1000
+                                            )}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.postInfo}>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#007aff',
+                                            }}
+                                        >
+                                            {item.data.subreddit_name_prefixed}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#4c4c4c',
+                                            }}
+                                        >
+                                            {' '}
+                                            •
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#007aff',
+                                            }}
+                                        >
+                                            {' '}
+                                            u/{item.data.author}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.statusRow}>
+                                        <Icon
+                                            name="arrow-up"
+                                            type="feather"
+                                            size={15}
+                                            color="gray"
+                                            style={{
+                                                textAlign: 'left',
+                                            }}
+                                        />
+                                        <Text style={{ color: 'gray' }}>
+                                            {' '}
+                                            {item.data.score} points{' '}
+                                        </Text>
+                                        <Icon
+                                            name="comment-o"
+                                            type="font-awesome"
+                                            size={15}
+                                            color="gray"
+                                            style={{
+                                                textAlign: 'left',
+                                            }}
+                                        />
+                                        <Text style={{ color: 'gray' }}>
+                                            {' '}
+                                            {item.data.num_comments} comments
+                                        </Text>
+                                    </View>
+                                </Card>
+                            )}
+                        </>
+                    )
+                }}
+                data={this.state.comments.comments}
+                renderItem={({ item }) => (
+                    <RenderPage
+                        item={item}
+                        navigation={this.props.navigation}
                     />
                 )}
-            </ScrollView>
+                keyExtractor={(item) => {
+                    return String(item.data.dist == null)
+                }}
+            />
         )
-        // return this.state.comments.isLoading ? (<Loading />) :
-        // (
-        //     // <FlatList
-        //     //     data={this.state.comments.comments}
-        //     //     renderItem={({ item }) => (
-        //             // <RenderPage
-        //             //     item={item}
-        //             //     navigation={this.props.navigation}
-        //         //     />
-        //         // )}
-        //         // keyExtractor={(item) => {
-        //         //     return String(item.data.dist == null)
-        //         // }}
-        //     // />
-        //     <>
-        //     </>
-        // )
     }
 }
 
