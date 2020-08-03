@@ -6,8 +6,10 @@ import {
     FlatList,
     Dimensions,
     ScrollView,
+    TouchableHighlight,
 } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-display'
 import { Loading } from './LoadingComponent'
@@ -201,6 +203,7 @@ class Comments extends Component {
         super(props)
         this.state = {
             filter: '',
+            timeModalVisible: false,
             comments: {
                 isLoading: true,
                 errMess: null,
@@ -208,9 +211,164 @@ class Comments extends Component {
             },
         }
     }
+    _menu = null
+
+    setMenuRef = (ref) => {
+        this._menu = ref
+    }
+
+    hideMenu = () => {
+        this._menu.hide()
+    }
+
+    showMenu = () => {
+        this._menu.show()
+    }
 
     componentDidMount() {
-        fetch(baseurl + this.props.route.params.item.data.permalink + '.json')
+        this.props.navigation.setOptions({
+            headerTitle: (
+                <>
+                    <Text>Comments{this.state.filter == '' ? null : ':'} </Text>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            textTransform: 'capitalize',
+                            color: 'gray',
+                        }}
+                    >
+                        {this.state.filter}
+                    </Text>
+                </>
+            ),
+            headerRight: () => (
+                <Menu
+                    ref={this.setMenuRef}
+                    disabledTextColor="#000000"
+                    button={
+                        <TouchableHighlight
+                            activeOpacity={0.6}
+                            underlayColor="#DDDDDD"
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                justifyContent: 'center',
+                            }}
+                            onPress={this.showMenu}
+                        >
+                            <Icon name="filter-list" size={26} />
+                        </TouchableHighlight>
+                    }
+                >
+                    <MenuItem onPress={() => {}} disabled>
+                        Sort by:
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'best',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Best
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'top',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Top
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'new',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        New
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'old',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Old
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'qa',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Q&A
+                    </MenuItem>
+                    <MenuItem
+                        onPress={() => {
+                            this.hideMenu()
+                            this.setState({
+                                ...this.state,
+                                filter: 'controversial',
+                                comments: {
+                                    ...this.state.comments,
+                                    isLoading: true,
+                                },
+                            })
+                        }}
+                    >
+                        Controversial
+                    </MenuItem>
+                </Menu>
+            ),
+            headerRightContainerStyle: {
+                width: '15%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+            },
+        })
+        fetch(
+            baseurl +
+                this.props.route.params.item.data.permalink +
+                `.json?sort=${this.state.filter}`
+        )
             .then(
                 (response) => {
                     if (response.ok) {
@@ -252,6 +410,75 @@ class Comments extends Component {
                     },
                 })
             )
+    }
+
+    componentDidUpdate(_, prevState) {
+        if (this.state.filter != prevState.filter) {
+            this.props.navigation.setOptions({
+                headerTitle: (
+                    <>
+                        <Text>
+                            Comments{this.state.filter == '' ? null : ':'}{' '}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                textTransform: 'capitalize',
+                                color: 'gray',
+                            }}
+                        >
+                            {this.state.filter}
+                        </Text>
+                    </>
+                ),
+            })
+            fetch(
+                baseurl +
+                    this.props.route.params.item.data.permalink +
+                    `.json?sort=${this.state.filter}`
+            )
+                .then(
+                    (response) => {
+                        if (response.ok) {
+                            return response
+                        } else {
+                            var error = new Error(
+                                'Error ' +
+                                    response.status +
+                                    ': ' +
+                                    response.statusText
+                            )
+                            error.response = response
+                            throw error
+                        }
+                    },
+                    (error) => {
+                        var errmess = new Error(error.message)
+                        throw errmess
+                    }
+                )
+                .then((response) => response.json())
+                .then((comments) =>
+                    this.setState({
+                        ...this.state,
+                        comments: {
+                            errMess: null,
+                            comments: comments,
+                            isLoading: false,
+                        },
+                    })
+                )
+                .catch((error) =>
+                    this.setState({
+                        ...this.state,
+                        comments: {
+                            ...this.state.comments,
+                            isLoading: false,
+                            errMess: error,
+                        },
+                    })
+                )
+        }
     }
 
     render() {

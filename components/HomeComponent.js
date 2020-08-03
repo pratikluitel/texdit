@@ -46,18 +46,6 @@ class Home extends Component {
         this._menu.show()
     }
 
-    setMenuTimeRef = (ref) => {
-        this._menuTime = ref
-    }
-
-    hideMenuTime = () => {
-        this._menuTime.hide()
-    }
-
-    showMenuTime = () => {
-        this._menuTime.show()
-    }
-
     toggleModal = () => {
         this.setState({ ...this.state, modalVisible: !this.state.modalVisible })
     }

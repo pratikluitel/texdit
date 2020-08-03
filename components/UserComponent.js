@@ -32,7 +32,6 @@ class User extends Component {
         }
     }
     _menu = null
-    _menuTime = null
 
     setMenuRef = (ref) => {
         this._menu = ref
@@ -44,18 +43,6 @@ class User extends Component {
 
     showMenu = () => {
         this._menu.show()
-    }
-
-    setMenuTimeRef = (ref) => {
-        this._menuTime = ref
-    }
-
-    hideMenuTime = () => {
-        this._menuTime.hide()
-    }
-
-    showMenuTime = () => {
-        this._menuTime.show()
     }
 
     toggleModal = () => {

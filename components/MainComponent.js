@@ -48,27 +48,6 @@ const Com = (Component, name) => ({ navigation }) => {
                         headerTitleContainerStyle: {
                             left: 60,
                         },
-                        headerRight: () => (
-                            <TouchableHighlight
-                                activeOpacity={0.6}
-                                underlayColor="#DDDDDD"
-                                style={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: 20,
-                                    justifyContent: 'center',
-                                }}
-                                onPress={() => {}}
-                            >
-                                <Icon name="filter-list" size={26} />
-                            </TouchableHighlight>
-                        ),
-                        headerRightContainerStyle: {
-                            width: '15%',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
-                        },
                     }}
                 />
             ) : null}
