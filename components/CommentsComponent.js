@@ -237,7 +237,7 @@ class Comments extends Component {
                             color: 'gray',
                         }}
                     >
-                        {this.state.filter}
+                        {this.state.filter == 'qa' ? 'Q&A' : this.state.filter}
                     </Text>
                 </>
             ),
@@ -427,7 +427,9 @@ class Comments extends Component {
                                 color: 'gray',
                             }}
                         >
-                            {this.state.filter}
+                            {this.state.filter == 'qa'
+                                ? 'Q&A'
+                                : this.state.filter}
                         </Text>
                     </>
                 ),
