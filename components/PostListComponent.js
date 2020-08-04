@@ -41,13 +41,7 @@ const RenderItem = ({ item, navigation }) => {
                         >
                             {item.data.selftext != '' ? (
                                 <View style={styles.selfText}>
-                                    <Markdown
-                                        style={{
-                                            body: { color: 'white' },
-                                            heading1: { color: 'white' },
-                                            code_block: { color: 'white' },
-                                        }}
-                                    >
+                                    <Markdown style={markdownStyle}>
                                         {item.data.selftext}
                                     </Markdown>
                                 </View>

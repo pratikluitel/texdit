@@ -254,100 +254,37 @@ class Comments extends Component {
                         </TouchableOpacity>
                     }
                 >
-                    <MenuItem onPress={() => {}} disabled>
+                    <MenuItem disabled disabledTextColor="black">
                         Sort by:
                     </MenuItem>
                     <MenuDivider />
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'best',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        Best
-                    </MenuItem>
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'top',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        Top
-                    </MenuItem>
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'new',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        New
-                    </MenuItem>
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'old',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        Old
-                    </MenuItem>
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'qa',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        Q&A
-                    </MenuItem>
-                    <MenuItem
-                        onPress={() => {
-                            this.hideMenu()
-                            this.setState({
-                                ...this.state,
-                                filter: 'controversial',
-                                comments: {
-                                    ...this.state.comments,
-                                    isLoading: true,
-                                },
-                            })
-                        }}
-                    >
-                        Controversial
-                    </MenuItem>
+                    {Object.entries({
+                        best: 'Best',
+                        top: 'Top',
+                        new: 'New',
+                        old: 'Old',
+                        qa: 'Q&A',
+                        controversial: 'Controversial',
+                    }).map((en) => {
+                        // en is an array with 2 elements representing 1 key value pair for each iteration
+                        return (
+                            <MenuItem
+                                onPress={() => {
+                                    this.hideMenu()
+                                    this.setState({
+                                        ...this.state,
+                                        filter: en[0],
+                                        comments: {
+                                            ...this.state.comments,
+                                            isLoading: true,
+                                        },
+                                    })
+                                }}
+                            >
+                                {en[1]}
+                            </MenuItem>
+                        )
+                    })}
                 </Menu>
             ),
             headerRightContainerStyle: {
@@ -490,12 +427,7 @@ class Comments extends Component {
                 {image != null ? (
                     <Card
                         title={item.data.title}
-                        titleStyle={{
-                            marginHorizontal: 15,
-                            textAlign: 'left',
-                            fontSize: 18,
-                            marginBottom: 10,
-                        }}
+                        titleStyle={styles.cardTitleStyle}
                         dividerStyle={{
                             marginBottom: 5,
                         }}
@@ -510,31 +442,23 @@ class Comments extends Component {
                                 (Dimensions.get('window').width - 30),
                             marginBottom: 10,
                         }}
+                        containerStyle={styles.card}
                     >
                         {item.data.selftext != '' ? (
                             <View style={styles.selfText}>
-                                <Markdown>{item.data.selftext}</Markdown>
+                                <Markdown style={markdownStyle}>
+                                    {item.data.selftext}
+                                </Markdown>
                             </View>
                         ) : null}
                         <View style={{ marginBottom: 5 }}>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#4c4c4c',
-                                    textAlign: 'right',
-                                }}
-                            >
+                            <Text style={styles.timeAgoStyle}>
                                 {' '}
                                 {timeago(item.data.created_utc * 1000)}
                             </Text>
                         </View>
                         <View style={styles.postInfo}>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#007aff',
-                                }}
-                            >
+                            <Text style={styles.postInfoText}>
                                 {item.data.subreddit_name_prefixed}
                             </Text>
                             <Text
@@ -546,12 +470,7 @@ class Comments extends Component {
                                 {' '}
                                 •
                             </Text>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#007aff',
-                                }}
-                            >
+                            <Text style={styles.postInfoText}>
                                 {' '}
                                 u/{item.data.author}
                             </Text>
@@ -568,7 +487,7 @@ class Comments extends Component {
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
-                                {item.data.score} points{' '}
+                                {item.data.score} points{'   '}
                             </Text>
                             <Icon
                                 name="comment-o"
@@ -588,19 +507,17 @@ class Comments extends Component {
                 ) : (
                     <Card
                         title={item.data.title}
-                        titleStyle={{
-                            marginHorizontal: 0,
-                            textAlign: 'left',
-                            fontSize: 18,
-                            marginBottom: 10,
-                        }}
+                        titleStyle={styles.cardTitleStyleTextPost}
                         dividerStyle={{
                             marginBottom: 10,
                         }}
+                        containerStyle={styles.card}
                     >
                         {item.data.selftext != '' ? (
                             <View style={styles.selfText}>
-                                <Markdown>{item.data.selftext}</Markdown>
+                                <Markdown style={markdownStyle}>
+                                    {item.data.selftext}
+                                </Markdown>
                             </View>
                         ) : null}
                         <View style={{ marginBottom: 5 }}>
@@ -616,12 +533,7 @@ class Comments extends Component {
                             </Text>
                         </View>
                         <View style={styles.postInfo}>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#007aff',
-                                }}
-                            >
+                            <Text style={styles.postInfoText}>
                                 {item.data.subreddit_name_prefixed}
                             </Text>
                             <Text
@@ -633,12 +545,7 @@ class Comments extends Component {
                                 {' '}
                                 •
                             </Text>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#007aff',
-                                }}
-                            >
+                            <Text style={styles.postInfoText}>
                                 {' '}
                                 u/{item.data.author}
                             </Text>
@@ -655,7 +562,7 @@ class Comments extends Component {
                             />
                             <Text style={{ color: 'gray' }}>
                                 {' '}
-                                {item.data.score} points{' '}
+                                {item.data.score} points{'   '}
                             </Text>
                             <Icon
                                 name="comment-o"
@@ -683,12 +590,7 @@ class Comments extends Component {
                             {image != null ? (
                                 <Card
                                     title={item.data.title}
-                                    titleStyle={{
-                                        marginHorizontal: 15,
-                                        textAlign: 'left',
-                                        fontSize: 18,
-                                        marginBottom: 10,
-                                    }}
+                                    titleStyle={styles.cardTitleStyle}
                                     dividerStyle={{
                                         marginBottom: 5,
                                     }}
@@ -704,22 +606,17 @@ class Comments extends Component {
                                                 30),
                                         marginBottom: 10,
                                     }}
+                                    containerStyle={styles.card}
                                 >
                                     {item.data.selftext != '' ? (
                                         <View style={styles.selfText}>
-                                            <Markdown>
+                                            <Markdown style={markdownStyle}>
                                                 {item.data.selftext}
                                             </Markdown>
                                         </View>
                                     ) : null}
                                     <View style={{ marginBottom: 5 }}>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#4c4c4c',
-                                                textAlign: 'right',
-                                            }}
-                                        >
+                                        <Text style={styles.timeAgoStyle}>
                                             {' '}
                                             {timeago(
                                                 item.data.created_utc * 1000
@@ -727,12 +624,7 @@ class Comments extends Component {
                                         </Text>
                                     </View>
                                     <View style={styles.postInfo}>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {item.data.subreddit_name_prefixed}
                                         </Text>
                                         <Text
@@ -744,12 +636,7 @@ class Comments extends Component {
                                             {' '}
                                             •
                                         </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {' '}
                                             u/{item.data.author}
                                         </Text>
@@ -766,7 +653,7 @@ class Comments extends Component {
                                         />
                                         <Text style={{ color: 'gray' }}>
                                             {' '}
-                                            {item.data.score} points{' '}
+                                            {item.data.score} points{'   '}
                                         </Text>
                                         <Icon
                                             name="comment-o"
@@ -786,15 +673,11 @@ class Comments extends Component {
                             ) : (
                                 <Card
                                     title={item.data.title}
-                                    titleStyle={{
-                                        marginHorizontal: 0,
-                                        textAlign: 'left',
-                                        fontSize: 18,
-                                        marginBottom: 10,
-                                    }}
+                                    titleStyle={styles.cardTitleStyleTextPost}
                                     dividerStyle={{
                                         marginBottom: 10,
                                     }}
+                                    containerStyle={styles.card}
                                 >
                                     {item.data.selftext != '' ? (
                                         <View style={styles.selfText}>
@@ -804,13 +687,7 @@ class Comments extends Component {
                                         </View>
                                     ) : null}
                                     <View style={{ marginBottom: 5 }}>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#4c4c4c',
-                                                textAlign: 'right',
-                                            }}
-                                        >
+                                        <Text style={styles.timeAgoStyle}>
                                             {' '}
                                             {timeago(
                                                 item.data.created_utc * 1000
@@ -818,12 +695,7 @@ class Comments extends Component {
                                         </Text>
                                     </View>
                                     <View style={styles.postInfo}>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {item.data.subreddit_name_prefixed}
                                         </Text>
                                         <Text
@@ -835,12 +707,7 @@ class Comments extends Component {
                                             {' '}
                                             •
                                         </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {' '}
                                             u/{item.data.author}
                                         </Text>
@@ -857,7 +724,7 @@ class Comments extends Component {
                                         />
                                         <Text style={{ color: 'gray' }}>
                                             {' '}
-                                            {item.data.score} points{' '}
+                                            {item.data.score} points{'   '}
                                         </Text>
                                         <Icon
                                             name="comment-o"
@@ -893,6 +760,12 @@ class Comments extends Component {
     }
 }
 
+const markdownStyle = {
+    body: { color: 'white' },
+    heading1: { color: 'white' },
+    code_block: { color: 'white' },
+}
+
 const styles = StyleSheet.create({
     iconWrapper: {
         width: 40,
@@ -900,13 +773,39 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         justifyContent: 'center',
     },
-    card: {},
+    card: {
+        backgroundColor: '#292929',
+        borderColor: '#292929',
+        borderRadius: 5,
+        marginHorizontal: 6,
+        marginVertical: 6,
+    },
+    cardTitleStyle: {
+        marginHorizontal: 15,
+        textAlign: 'left',
+        fontSize: 18,
+        marginBottom: 10,
+        color: 'white',
+    },
+    cardTitleStyleTextPost: {
+        marginHorizontal: 1,
+        textAlign: 'left',
+        fontSize: 18,
+        marginBottom: 10,
+        color: 'white',
+    },
     selfText: {
         borderBottomColor: '#c5d2e0',
         borderBottomWidth: 1,
         paddingVertical: 10,
         marginBottom: 10,
     },
+    timeAgoStyle: {
+        fontSize: 13,
+        color: '#8c8c8c',
+        textAlign: 'right',
+    },
+    postInfoText: { fontSize: 13, color: '#8cb3d9' },
     textComment: {},
     statusRow: {
         flex: 1,
