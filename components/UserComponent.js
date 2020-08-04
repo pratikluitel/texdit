@@ -7,6 +7,7 @@ import {
     Button,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
 } from 'react-native'
 import { Icon, Card } from 'react-native-elements'
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
@@ -62,9 +63,7 @@ class User extends Component {
                     ref={this.setMenuRef}
                     disabledTextColor="#000000"
                     button={
-                        <TouchableHighlight
-                            activeOpacity={0.6}
-                            underlayColor="#DDDDDD"
+                        <TouchableOpacity
                             style={{
                                 width: 40,
                                 height: 40,
@@ -74,7 +73,7 @@ class User extends Component {
                             onPress={this.showMenu}
                         >
                             <Icon name="filter-list" size={26} color="white" />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     }
                 >
                     <MenuItem onPress={() => {}} disabled>
@@ -165,9 +164,7 @@ class User extends Component {
                         Controversial
                     </MenuItem>
                 </Menu>
-                <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
+                <TouchableOpacity
                     style={{
                         width: 40,
                         height: 40,
@@ -179,7 +176,7 @@ class User extends Component {
                     }}
                 >
                     <Icon name="search" size={26} color="white" />
-                </TouchableHighlight>
+                </TouchableOpacity>
             </>
         )
     }

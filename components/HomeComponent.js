@@ -6,6 +6,7 @@ import {
     Button,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
     Text,
 } from 'react-native'
 import { Icon, Card } from 'react-native-elements'
@@ -60,9 +61,7 @@ class Home extends Component {
     renderFilter() {
         return (
             <>
-                <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
+                <TouchableOpacity
                     style={{
                         width: 40,
                         height: 40,
@@ -85,13 +84,11 @@ class Home extends Component {
                     }}
                 >
                     <Icon name="home" size={26} color="white" />
-                </TouchableHighlight>
+                </TouchableOpacity>
                 <Menu
                     ref={this.setMenuRef}
                     button={
-                        <TouchableHighlight
-                            activeOpacity={0.6}
-                            underlayColor="#DDDDDD"
+                        <TouchableOpacity
                             style={{
                                 width: 40,
                                 height: 40,
@@ -101,7 +98,7 @@ class Home extends Component {
                             onPress={this.showMenu}
                         >
                             <Icon name="filter-list" size={26} color="white" />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     }
                 >
                     <MenuItem onPress={() => {}} disabled>
@@ -192,7 +189,7 @@ class Home extends Component {
                         Controversial
                     </MenuItem>
                 </Menu>
-                <TouchableHighlight
+                <TouchableOpacity
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                     style={{
@@ -206,7 +203,7 @@ class Home extends Component {
                     }}
                 >
                     <Icon name="search" size={26} color="white" />
-                </TouchableHighlight>
+                </TouchableOpacity>
             </>
         )
     }

@@ -6,7 +6,7 @@ import {
     FlatList,
     Dimensions,
     ScrollView,
-    TouchableHighlight,
+    TouchableOpacity,
 } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
@@ -246,9 +246,7 @@ class Comments extends Component {
                     ref={this.setMenuRef}
                     disabledTextColor="#000000"
                     button={
-                        <TouchableHighlight
-                            activeOpacity={0.6}
-                            underlayColor="#DDDDDD"
+                        <TouchableOpacity
                             style={{
                                 width: 40,
                                 height: 40,
@@ -258,7 +256,7 @@ class Comments extends Component {
                             onPress={this.showMenu}
                         >
                             <Icon name="filter-list" size={26} color="white" />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     }
                 >
                     <MenuItem onPress={() => {}} disabled>

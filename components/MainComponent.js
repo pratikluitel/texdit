@@ -6,10 +6,7 @@ import { Icon } from 'react-native-elements'
 import Home from './HomeComponent'
 import User from './UserComponent'
 import Comments from './CommentsComponent'
-import {
-    TouchableOpacity,
-    TouchableHighlight,
-} from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
