@@ -12,6 +12,7 @@ const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 const Com = (Component, name) => ({ navigation }) => {
+    //return two stacked screens for each Component(some exceptions) for main feed and comments.
     return (
         <Stack.Navigator>
             <Stack.Screen
