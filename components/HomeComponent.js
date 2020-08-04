@@ -32,8 +32,8 @@ class Home extends Component {
             },
         }
     }
+    //methods and variables for filtering
     _menu = null
-    _menuTime = null
 
     setMenuRef = (ref) => {
         this._menu = ref
@@ -111,6 +111,7 @@ class Home extends Component {
                         rising: 'Rising',
                         controversial: 'Controversial',
                     }).map((en) => {
+                        // en is an array with 2 elements representing 1 key value pair for each iteration
                         return (
                             <MenuItem
                                 key={en[0]}
@@ -147,6 +148,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.mounted = true
+        //set header
         this.props.navigation.setOptions({
             headerTitle: (
                 <>
@@ -233,11 +235,13 @@ class Home extends Component {
             })
     }
     componentDidUpdate(_, prevState) {
+        //updates only if subreddit, filter or filter time is changed
         if (
             this.state.subreddits[0] !== prevState.subreddits[0] ||
             this.state.filter != prevState.filter ||
             this.state.time != prevState.time
         ) {
+            //set header
             this.props.navigation.setOptions({
                 headerTitle: (
                     <>

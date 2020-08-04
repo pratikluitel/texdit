@@ -32,6 +32,7 @@ class User extends Component {
             },
         }
     }
+    //methods and variables for filtering
     _menu = null
 
     setMenuRef = (ref) => {
@@ -124,6 +125,7 @@ class User extends Component {
 
     componentDidMount() {
         this.mounted = true
+        //set header
         this.props.navigation.setOptions({
             headerTitle: (
                 <>
@@ -206,11 +208,13 @@ class User extends Component {
     }
 
     componentDidUpdate(_, prevState) {
+        //updates only if subreddit, filter or filter time is changed
         if (
             this.state.user !== prevState.user ||
             this.state.filter != prevState.filter ||
             this.state.time != prevState.time
         ) {
+            //set header
             this.props.navigation.setOptions({
                 headerTitle: (
                     <>

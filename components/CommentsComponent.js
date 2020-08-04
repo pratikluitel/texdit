@@ -406,6 +406,7 @@ class Comments extends Component {
     }
 
     componentDidUpdate(_, prevState) {
+        //updates only if filter is changed
         if (this.state.filter != prevState.filter) {
             this.props.navigation.setOptions({
                 headerTitle: (
