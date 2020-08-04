@@ -62,12 +62,7 @@ class Home extends Component {
         return (
             <>
                 <TouchableOpacity
-                    style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                    }}
+                    style={styles.iconWrapper}
                     onPress={() => {
                         this.state.subreddits.length != 0 ||
                         this.state.filter.length != 0
@@ -89,12 +84,7 @@ class Home extends Component {
                     ref={this.setMenuRef}
                     button={
                         <TouchableOpacity
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 20,
-                                justifyContent: 'center',
-                            }}
+                            style={styles.iconWrapper}
                             onPress={this.showMenu}
                         >
                             <Icon name="filter-list" size={26} color="white" />
@@ -192,12 +182,7 @@ class Home extends Component {
                 <TouchableOpacity
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
-                    style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                    }}
+                    style={styles.iconWrapper}
                     onPress={() => {
                         this.toggleModal()
                     }}
@@ -594,6 +579,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    iconWrapper: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
     },
     timeModal: {
         flex: 1,

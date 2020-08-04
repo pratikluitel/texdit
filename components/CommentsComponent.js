@@ -247,12 +247,7 @@ class Comments extends Component {
                     disabledTextColor="#000000"
                     button={
                         <TouchableOpacity
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 20,
-                                justifyContent: 'center',
-                            }}
+                            style={styles.iconWrapper}
                             onPress={this.showMenu}
                         >
                             <Icon name="filter-list" size={26} color="white" />
@@ -898,6 +893,12 @@ class Comments extends Component {
 }
 
 const styles = StyleSheet.create({
+    iconWrapper: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+    },
     card: {},
     selfText: {
         borderBottomColor: '#c5d2e0',

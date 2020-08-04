@@ -18,6 +18,7 @@ const Com = (Component, name) => ({ navigation }) => {
                 name={name}
                 component={Component}
                 options={{
+                    cardStyle: { backgroundColor: '#777777' },
                     headerStyle: {
                         backgroundColor: '#202020',
                     },
@@ -46,6 +47,7 @@ const Com = (Component, name) => ({ navigation }) => {
                     name={'Comments'}
                     component={Comments}
                     options={{
+                        cardStyle: { backgroundColor: '#777777' },
                         headerStyle: {
                             backgroundColor: '#202020',
                         },
