@@ -84,7 +84,7 @@ class Home extends Component {
                             : null
                     }}
                 >
-                    <Icon name="home" size={26} />
+                    <Icon name="home" size={26} color="white" />
                 </TouchableHighlight>
                 <Menu
                     ref={this.setMenuRef}
@@ -100,7 +100,7 @@ class Home extends Component {
                             }}
                             onPress={this.showMenu}
                         >
-                            <Icon name="filter-list" size={26} />
+                            <Icon name="filter-list" size={26} color="white" />
                         </TouchableHighlight>
                     }
                 >
@@ -187,7 +187,6 @@ class Home extends Component {
                                 },
                             })
                             this.hideMenu()
-                            this.toggleTimeModal()
                         }}
                     >
                         Controversial
@@ -206,7 +205,7 @@ class Home extends Component {
                         this.toggleModal()
                     }}
                 >
-                    <Icon name="search" size={26} />
+                    <Icon name="search" size={26} color="white" />
                 </TouchableHighlight>
             </>
         )
@@ -329,7 +328,6 @@ class Home extends Component {
                         </Text>
                     </>
                 ),
-                headerRight: () => this.renderFilter(),
             })
 
             const substring = this.state.subreddits.join('+')

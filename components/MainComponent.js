@@ -21,11 +21,17 @@ const Com = (Component, name) => ({ navigation }) => {
                 name={name}
                 component={Component}
                 options={{
+                    headerStyle: {
+                        backgroundColor: '#202020',
+                    },
+                    headerTitleStyle: {
+                        color: 'white',
+                    },
                     headerLeft: () => (
                         <TouchableOpacity
                             onPress={() => navigation.toggleDrawer()}
                         >
-                            <Icon name="menu" size={26} />
+                            <Icon name="menu" size={26} color="white" />
                         </TouchableOpacity>
                     ),
                     headerLeftContainerStyle: {
@@ -35,6 +41,7 @@ const Com = (Component, name) => ({ navigation }) => {
                     headerTitleContainerStyle: {
                         left: 60,
                     },
+                    headerTintColor: 'white',
                 }}
             />
             {name != 'Settings' ? (
@@ -42,12 +49,19 @@ const Com = (Component, name) => ({ navigation }) => {
                     name={'Comments'}
                     component={Comments}
                     options={{
+                        headerStyle: {
+                            backgroundColor: '#202020',
+                        },
+                        headerTitleStyle: {
+                            color: 'white',
+                        },
                         headerLeftContainerStyle: {
                             alignItems: 'center',
                         },
                         headerTitleContainerStyle: {
                             left: 60,
                         },
+                        headerTintColor: 'white',
                     }}
                 />
             ) : null}
@@ -59,7 +73,15 @@ export default class Main extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName="Browse">
+                <Drawer.Navigator
+                    initialRouteName="Browse"
+                    drawerStyle={{ backgroundColor: '#2c2c2c' }}
+                    labelStyle={{ color: 'white' }}
+                    drawerContentOptions={{
+                        activeTintColor: '#aaaaaa',
+                        inactiveTintColor: '#cccccc',
+                    }}
+                >
                     {/* Sign in button */}
                     <Drawer.Screen
                         name="Browse"

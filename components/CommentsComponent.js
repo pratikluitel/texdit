@@ -257,7 +257,7 @@ class Comments extends Component {
                             }}
                             onPress={this.showMenu}
                         >
-                            <Icon name="filter-list" size={26} />
+                            <Icon name="filter-list" size={26} color="white" />
                         </TouchableHighlight>
                     }
                 >

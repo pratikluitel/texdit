@@ -73,7 +73,7 @@ class User extends Component {
                             }}
                             onPress={this.showMenu}
                         >
-                            <Icon name="filter-list" size={26} />
+                            <Icon name="filter-list" size={26} color="white" />
                         </TouchableHighlight>
                     }
                 >
@@ -178,7 +178,7 @@ class User extends Component {
                         this.toggleModal()
                     }}
                 >
-                    <Icon name="search" size={26} />
+                    <Icon name="search" size={26} color="white" />
                 </TouchableHighlight>
             </>
         )
@@ -297,8 +297,6 @@ class User extends Component {
                         </Text>
                     </>
                 ),
-
-                headerRight: () => this.renderFilter(),
             })
             const substring = this.state.user
             const user = '/user/' + substring
