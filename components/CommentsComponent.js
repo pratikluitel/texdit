@@ -280,6 +280,7 @@ class Comments extends Component {
                                         },
                                     })
                                 }}
+                                key={en[0]}
                             >
                                 {en[1]}
                             </MenuItem>
@@ -422,340 +423,186 @@ class Comments extends Component {
                       item.data.preview.images[0].resolutions.length - 1
                   ]
                 : null
-        return this.state.comments.isLoading ? (
-            <ScrollView>
-                {image != null ? (
-                    <Card
-                        title={item.data.title}
-                        titleStyle={styles.cardTitleStyle}
-                        dividerStyle={{
-                            marginBottom: 5,
-                        }}
-                        image={{
-                            uri: image.url.replace(/&amp;/g, '&'),
-                        }}
-                        imageStyle={{
-                            resizeMode: 'cover',
-                            width: '100%',
-                            height:
-                                (image.height / image.width) *
-                                (Dimensions.get('window').width - 30),
-                            marginBottom: 10,
-                        }}
-                        containerStyle={styles.card}
-                    >
-                        {item.data.selftext != '' ? (
-                            <View style={styles.selfText}>
-                                <Markdown style={markdownStyle}>
-                                    {item.data.selftext}
-                                </Markdown>
-                            </View>
-                        ) : null}
-                        <View style={{ marginBottom: 5 }}>
-                            <Text style={styles.timeAgoStyle}>
-                                {' '}
-                                {timeago(item.data.created_utc * 1000)}
-                            </Text>
+        const Post = () =>
+            image != null ? ( //checking if the post has an image
+                <Card
+                    title={item.data.title}
+                    titleStyle={styles.cardTitleStyle}
+                    dividerStyle={{
+                        marginBottom: 5,
+                    }}
+                    image={{
+                        uri: image.url.replace(/&amp;/g, '&'),
+                    }}
+                    imageStyle={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height:
+                            (image.height / image.width) *
+                            (Dimensions.get('window').width - 30),
+                        marginBottom: 10,
+                    }}
+                    containerStyle={styles.card}
+                >
+                    {item.data.selftext != '' ? (
+                        <View style={styles.selfText}>
+                            <Markdown style={markdownStyle}>
+                                {item.data.selftext}
+                            </Markdown>
                         </View>
-                        <View style={styles.postInfo}>
-                            <Text style={styles.postInfoText}>
-                                {item.data.subreddit_name_prefixed}
-                            </Text>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#4c4c4c',
-                                }}
-                            >
-                                {' '}
-                                •
-                            </Text>
-                            <Text style={styles.postInfoText}>
-                                {' '}
-                                u/{item.data.author}
-                            </Text>
+                    ) : null}
+                    <View style={{ marginBottom: 5 }}>
+                        <Text style={styles.timeAgoStyle}>
+                            {' '}
+                            {timeago(item.data.created_utc * 1000)}
+                        </Text>
+                    </View>
+                    <View style={styles.postInfo}>
+                        <Text style={styles.postInfoText}>
+                            {item.data.subreddit_name_prefixed}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 13,
+                                color: '#bcbcbc',
+                            }}
+                        >
+                            {' '}
+                            •
+                        </Text>
+                        <Text style={styles.postInfoText}>
+                            {' '}
+                            u/{item.data.author}
+                        </Text>
+                    </View>
+                    <View style={styles.statusRow}>
+                        <Icon
+                            name="arrow-up"
+                            type="feather"
+                            size={15}
+                            color="gray"
+                            style={{
+                                textAlign: 'left',
+                            }}
+                        />
+                        <Text style={{ color: 'gray' }}>
+                            {' '}
+                            {item.data.score} points{'   '}
+                        </Text>
+                        <Icon
+                            name="comment-o"
+                            type="font-awesome"
+                            size={15}
+                            color="gray"
+                            style={{
+                                textAlign: 'left',
+                            }}
+                        />
+                        <Text style={{ color: 'gray' }}>
+                            {' '}
+                            {item.data.num_comments} comments
+                        </Text>
+                    </View>
+                </Card>
+            ) : (
+                //for textposts
+                <Card
+                    title={item.data.title}
+                    titleStyle={styles.cardTitleStyleTextPost}
+                    dividerStyle={{
+                        marginBottom: 10,
+                    }}
+                    containerStyle={styles.card}
+                >
+                    {item.data.selftext != '' ? (
+                        <View style={styles.selfText}>
+                            <Markdown style={markdownStyle}>
+                                {item.data.selftext}
+                            </Markdown>
                         </View>
-                        <View style={styles.statusRow}>
-                            <Icon
-                                name="arrow-up"
-                                type="feather"
-                                size={15}
-                                color="gray"
-                                style={{
-                                    textAlign: 'left',
-                                }}
-                            />
-                            <Text style={{ color: 'gray' }}>
-                                {' '}
-                                {item.data.score} points{'   '}
-                            </Text>
-                            <Icon
-                                name="comment-o"
-                                type="font-awesome"
-                                size={15}
-                                color="gray"
-                                style={{
-                                    textAlign: 'left',
-                                }}
-                            />
-                            <Text style={{ color: 'gray' }}>
-                                {' '}
-                                {item.data.num_comments} comments
-                            </Text>
-                        </View>
-                    </Card>
+                    ) : null}
+                    <View style={{ marginBottom: 5 }}>
+                        <Text style={styles.timeAgoStyle}>
+                            {' '}
+                            {timeago(item.data.created_utc * 1000)}
+                        </Text>
+                    </View>
+                    <View style={styles.postInfo}>
+                        <Text style={styles.postInfoText}>
+                            {item.data.subreddit_name_prefixed}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 13,
+                                color: '#bcbcbc',
+                            }}
+                        >
+                            {' '}
+                            •
+                        </Text>
+                        <Text style={styles.postInfoText}>
+                            {' '}
+                            u/{item.data.author}
+                        </Text>
+                    </View>
+                    <View style={styles.statusRow}>
+                        <Icon
+                            name="arrow-up"
+                            type="feather"
+                            size={15}
+                            color="gray"
+                            style={{
+                                textAlign: 'left',
+                            }}
+                        />
+                        <Text style={{ color: 'gray' }}>
+                            {' '}
+                            {item.data.score} points{'   '}
+                        </Text>
+                        <Icon
+                            name="comment-o"
+                            type="font-awesome"
+                            size={15}
+                            color="gray"
+                            style={{
+                                textAlign: 'left',
+                            }}
+                        />
+                        <Text style={{ color: 'gray' }}>
+                            {' '}
+                            {item.data.num_comments} comments
+                        </Text>
+                    </View>
+                </Card>
+            )
+        return (
+            <>
+                {this.state.comments.isLoading ? (
+                    <ScrollView>
+                        <Post />
+                        <Loading />
+                    </ScrollView>
                 ) : (
-                    <Card
-                        title={item.data.title}
-                        titleStyle={styles.cardTitleStyleTextPost}
-                        dividerStyle={{
-                            marginBottom: 10,
+                    //after the comments have loaded.
+                    <FlatList
+                        ListHeaderComponent={Post}
+                        // the data has only two elements, and the 1st element is of no use
+                        //still using flatlist because indexing into the data caused an error
+                        //the RenderPage function will then call another flatlist that actually renders
+                        //the comments. No way to avoid this for now, but looking into it.
+                        data={this.state.comments.comments}
+                        renderItem={({ item }) => (
+                            <RenderPage
+                                item={item}
+                                navigation={this.props.navigation}
+                            />
+                        )}
+                        keyExtractor={(item) => {
+                            return String(item.data.dist == null)
                         }}
-                        containerStyle={styles.card}
-                    >
-                        {item.data.selftext != '' ? (
-                            <View style={styles.selfText}>
-                                <Markdown style={markdownStyle}>
-                                    {item.data.selftext}
-                                </Markdown>
-                            </View>
-                        ) : null}
-                        <View style={{ marginBottom: 5 }}>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#4c4c4c',
-                                    textAlign: 'right',
-                                }}
-                            >
-                                {' '}
-                                {timeago(item.data.created_utc * 1000)}
-                            </Text>
-                        </View>
-                        <View style={styles.postInfo}>
-                            <Text style={styles.postInfoText}>
-                                {item.data.subreddit_name_prefixed}
-                            </Text>
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    color: '#4c4c4c',
-                                }}
-                            >
-                                {' '}
-                                •
-                            </Text>
-                            <Text style={styles.postInfoText}>
-                                {' '}
-                                u/{item.data.author}
-                            </Text>
-                        </View>
-                        <View style={styles.statusRow}>
-                            <Icon
-                                name="arrow-up"
-                                type="feather"
-                                size={15}
-                                color="gray"
-                                style={{
-                                    textAlign: 'left',
-                                }}
-                            />
-                            <Text style={{ color: 'gray' }}>
-                                {' '}
-                                {item.data.score} points{'   '}
-                            </Text>
-                            <Icon
-                                name="comment-o"
-                                type="font-awesome"
-                                size={15}
-                                color="gray"
-                                style={{
-                                    textAlign: 'left',
-                                }}
-                            />
-                            <Text style={{ color: 'gray' }}>
-                                {' '}
-                                {item.data.num_comments} comments
-                            </Text>
-                        </View>
-                    </Card>
-                )}
-                <Loading />
-            </ScrollView>
-        ) : (
-            <FlatList
-                ListHeaderComponent={() => {
-                    return (
-                        <>
-                            {image != null ? (
-                                <Card
-                                    title={item.data.title}
-                                    titleStyle={styles.cardTitleStyle}
-                                    dividerStyle={{
-                                        marginBottom: 5,
-                                    }}
-                                    image={{
-                                        uri: image.url.replace(/&amp;/g, '&'),
-                                    }}
-                                    imageStyle={{
-                                        resizeMode: 'cover',
-                                        width: '100%',
-                                        height:
-                                            (image.height / image.width) *
-                                            (Dimensions.get('window').width -
-                                                30),
-                                        marginBottom: 10,
-                                    }}
-                                    containerStyle={styles.card}
-                                >
-                                    {item.data.selftext != '' ? (
-                                        <View style={styles.selfText}>
-                                            <Markdown style={markdownStyle}>
-                                                {item.data.selftext}
-                                            </Markdown>
-                                        </View>
-                                    ) : null}
-                                    <View style={{ marginBottom: 5 }}>
-                                        <Text style={styles.timeAgoStyle}>
-                                            {' '}
-                                            {timeago(
-                                                item.data.created_utc * 1000
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.postInfo}>
-                                        <Text style={styles.postInfoText}>
-                                            {item.data.subreddit_name_prefixed}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#4c4c4c',
-                                            }}
-                                        >
-                                            {' '}
-                                            •
-                                        </Text>
-                                        <Text style={styles.postInfoText}>
-                                            {' '}
-                                            u/{item.data.author}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.statusRow}>
-                                        <Icon
-                                            name="arrow-up"
-                                            type="feather"
-                                            size={15}
-                                            color="gray"
-                                            style={{
-                                                textAlign: 'left',
-                                            }}
-                                        />
-                                        <Text style={{ color: 'gray' }}>
-                                            {' '}
-                                            {item.data.score} points{'   '}
-                                        </Text>
-                                        <Icon
-                                            name="comment-o"
-                                            type="font-awesome"
-                                            size={15}
-                                            color="gray"
-                                            style={{
-                                                textAlign: 'left',
-                                            }}
-                                        />
-                                        <Text style={{ color: 'gray' }}>
-                                            {' '}
-                                            {item.data.num_comments} comments
-                                        </Text>
-                                    </View>
-                                </Card>
-                            ) : (
-                                <Card
-                                    title={item.data.title}
-                                    titleStyle={styles.cardTitleStyleTextPost}
-                                    dividerStyle={{
-                                        marginBottom: 10,
-                                    }}
-                                    containerStyle={styles.card}
-                                >
-                                    {item.data.selftext != '' ? (
-                                        <View style={styles.selfText}>
-                                            <Markdown>
-                                                {item.data.selftext}
-                                            </Markdown>
-                                        </View>
-                                    ) : null}
-                                    <View style={{ marginBottom: 5 }}>
-                                        <Text style={styles.timeAgoStyle}>
-                                            {' '}
-                                            {timeago(
-                                                item.data.created_utc * 1000
-                                            )}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.postInfo}>
-                                        <Text style={styles.postInfoText}>
-                                            {item.data.subreddit_name_prefixed}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#4c4c4c',
-                                            }}
-                                        >
-                                            {' '}
-                                            •
-                                        </Text>
-                                        <Text style={styles.postInfoText}>
-                                            {' '}
-                                            u/{item.data.author}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.statusRow}>
-                                        <Icon
-                                            name="arrow-up"
-                                            type="feather"
-                                            size={15}
-                                            color="gray"
-                                            style={{
-                                                textAlign: 'left',
-                                            }}
-                                        />
-                                        <Text style={{ color: 'gray' }}>
-                                            {' '}
-                                            {item.data.score} points{'   '}
-                                        </Text>
-                                        <Icon
-                                            name="comment-o"
-                                            type="font-awesome"
-                                            size={15}
-                                            color="gray"
-                                            style={{
-                                                textAlign: 'left',
-                                            }}
-                                        />
-                                        <Text style={{ color: 'gray' }}>
-                                            {' '}
-                                            {item.data.num_comments} comments
-                                        </Text>
-                                    </View>
-                                </Card>
-                            )}
-                        </>
-                    )
-                }}
-                data={this.state.comments.comments}
-                renderItem={({ item }) => (
-                    <RenderPage
-                        item={item}
-                        navigation={this.props.navigation}
                     />
                 )}
-                keyExtractor={(item) => {
-                    return String(item.data.dist == null)
-                }}
-            />
+            </>
         )
     }
 }
@@ -795,8 +642,8 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     selfText: {
-        borderBottomColor: '#c5d2e0',
-        borderBottomWidth: 1,
+        borderBottomColor: '#b2b2b2',
+        borderBottomWidth: 0.5,
         paddingVertical: 10,
         marginBottom: 10,
     },
