@@ -31,17 +31,12 @@ function RepliesList({ files, n_reply }) {
                         {file.kind != 'more' ? (
                             <>
                                 <View style={styles.textComment}>
-                                    <Markdown>{file.data.body}</Markdown>
+                                    <Markdown style={markdownStyle}>
+                                        {file.data.body}
+                                    </Markdown>
                                 </View>
                                 <View>
-                                    <Text
-                                        style={{
-                                            fontSize: 10,
-                                            fontStyle: 'italic',
-                                            color: '#4c4c4c',
-                                            textAlign: 'right',
-                                        }}
-                                    >
+                                    <Text style={styles.timeAgoStyle}>
                                         {' '}
                                         {timeago(file.data.created_utc * 1000)}
                                     </Text>
@@ -61,30 +56,19 @@ function RepliesList({ files, n_reply }) {
                                     <Text
                                         style={{
                                             fontSize: 13,
-                                            color: '#4c4c4c',
+                                            color: '#bcbcbc',
                                         }}
                                     >
                                         {' '}
                                         •
                                     </Text>
                                     {file.data.replies != '' ? (
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                                marginHorizontal: 0,
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {' '}
                                             u/{file.data.author}
                                         </Text>
                                     ) : (
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                color: '#007aff',
-                                            }}
-                                        >
+                                        <Text style={styles.postInfoText}>
                                             {' '}
                                             u/{file.data.author}
                                         </Text>
@@ -111,19 +95,14 @@ function RenderComment({ item, navigation }) {
     return (
         <>
             {item.kind != 'more' ? (
-                <Card style={styles.comment}>
+                <Card containerStyle={styles.commentCardStyle}>
                     <View style={styles.textComment}>
-                        <Markdown>{item.data.body}</Markdown>
+                        <Markdown style={markdownStyle}>
+                            {item.data.body}
+                        </Markdown>
                     </View>
                     <View>
-                        <Text
-                            style={{
-                                fontSize: 10,
-                                fontStyle: 'italic',
-                                color: '#4c4c4c',
-                                textAlign: 'right',
-                            }}
-                        >
+                        <Text style={styles.timeAgoStyle}>
                             {' '}
                             {timeago(item.data.created_utc * 1000)}
                         </Text>
@@ -140,17 +119,11 @@ function RenderComment({ item, navigation }) {
                             {' '}
                             {item.data.score} points
                         </Text>
-                        <Text style={{ fontSize: 13, color: '#4c4c4c' }}>
+                        <Text style={{ fontSize: 13, color: '#bcbcbc' }}>
                             {' '}
                             •
                         </Text>
-                        <Text
-                            style={{
-                                fontSize: 13,
-                                color: '#007aff',
-                                marginHorizontal: 0,
-                            }}
-                        >
+                        <Text style={styles.postInfoText}>
                             {' '}
                             u/{item.data.author}
                         </Text>
@@ -162,7 +135,13 @@ function RenderComment({ item, navigation }) {
                         />
                     ) : null}
                     <View>
-                        <Text style={{ textAlign: 'right', fontSize: 10 }}>
+                        <Text
+                            style={{
+                                textAlign: 'right',
+                                fontSize: 10,
+                                color: 'white',
+                            }}
+                        >
                             {item.data.replies != ''
                                 ? item.data.replies.data.children.length
                                 : 0}{' '}
@@ -663,8 +642,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomColor: '#c5d2e0',
-        borderBottomWidth: 1,
+        borderBottomColor: '#b2b2b2',
+        borderBottomWidth: 0.5,
         marginVertical: 8,
         paddingBottom: 8,
     },
@@ -676,6 +655,12 @@ const styles = StyleSheet.create({
     },
     comment: {
         marginLeft: 20,
+    },
+    commentCardStyle: {
+        backgroundColor: '#292929',
+        borderColor: '#292929',
+        marginHorizontal: 6,
+        marginVertical: 6,
     },
 })
 
