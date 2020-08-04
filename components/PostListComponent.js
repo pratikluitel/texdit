@@ -14,8 +14,8 @@ import Error from './ErrorComponent'
 const RenderItem = ({ item, navigation }) => {
     return (
         <>
-            {/* We can render both comments and posts in user profiles */}
-            {item.kind != 't1' ? ( //t1 represents comments, t3 represents link posts
+            {/* We can render both comments and posts in user profiles, hence this check needs to exist */}
+            {item.kind != 't1' ? ( //t1 represents a post, t3 represents a comment
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('Comments', {
@@ -23,7 +23,7 @@ const RenderItem = ({ item, navigation }) => {
                         })
                     }}
                 >
-                    {item.data.thumbnail_height != null ? (
+                    {item.data.thumbnail_height != null ? ( //checking if the post has an image in it
                         <Card
                             title={item.data.title}
                             titleStyle={styles.cardTitleStyle}
@@ -163,6 +163,7 @@ const RenderItem = ({ item, navigation }) => {
                     )}
                 </TouchableOpacity>
             ) : (
+                //code for if the item is a comment and not a post.
                 <Card
                     title={item.data.link_title}
                     titleStyle={styles.cardTitleStyleTextPost}
@@ -211,8 +212,8 @@ const RenderItem = ({ item, navigation }) => {
     )
 }
 
-function RenderList({ posts, navigation }) {
-    return (
+export default function PostList({ posts, navigation }) {
+    return typeof posts.data != 'undefined' ? (
         <FlatList
             data={posts.data.children}
             renderItem={({ item }) => (
@@ -220,11 +221,6 @@ function RenderList({ posts, navigation }) {
             )}
             keyExtractor={(item) => item.data.name}
         />
-    )
-}
-export default function PostList({ posts, navigation }) {
-    return typeof posts.data != 'undefined' ? (
-        <RenderList posts={posts} navigation={navigation} />
     ) : (
         <Error error={posts} />
     )
