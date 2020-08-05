@@ -16,7 +16,7 @@ import { Loading } from './LoadingComponent'
 import { baseurl } from '../shared/baseUrl'
 
 var n_reply = 0
-var max_reply_depth = 2
+var max_reply_depth = 8
 
 function RepliesList({ files, n_reply }) {
     n_reply = n_reply + 1

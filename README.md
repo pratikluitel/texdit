@@ -2,7 +2,7 @@
 
 An ad free reddit post fetcher app in [React Native](https://reactnative.dev/) - expo, with all the usual reddit features - sorting posts, comments, et al. except of course the sign in feature - which is coming soon, so yayy??
 
-Fetches the thumbnail in the frontpage, and the full picture after you click on the post. The goal was to only fetch text posts (as indicated by the name of this app, but ehh why not overdeliver)
+Fetches the thumbnail in the frontpage, and the full picture right after you click on the post. The goal was to only fetch text posts (as indicated by the name of this app, but ehh why not overdeliver, right?)
 
 All replies are currently not fetched (there were some performace issues, which will be fixed soon), you can adjust the reply depth in `components/CommentsComponent.js`, just modify the `max_reply_depth` variable
 
@@ -16,7 +16,7 @@ Has only the dark theme for now, more themes to be added later.
 
 ---
 
-#### Running in your system
+#### Running in your own system
 
 1. Install the [npm package manager](https://www.npmjs.com/) and [yarn package manager](https://yarnpkg.com/). Yarn is optional.
 
