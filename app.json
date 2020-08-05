@@ -15,7 +15,13 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.pratikluitel.texdit",
+            "buildNumber": "0.0.1"
+        },
+        "android": {
+            "package": "com.pratikluitel.texdit",
+            "versionCode": 1
         },
         "web": {
             "favicon": "./assets/favicon.png"
