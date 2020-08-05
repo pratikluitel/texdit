@@ -5,14 +5,9 @@ export const Loading = () => {
     return (
         <View style={styles.loadingView}>
             <ActivityIndicator
-                size="large"
+                size="small"
                 color="black"
-                style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 21,
-                    backgroundColor: 'white',
-                }}
+                style={styles.loadingButtonSize}
             />
         </View>
     )
@@ -24,5 +19,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
+    },
+    loadingButtonSize: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        backgroundColor: 'white',
     },
 })
