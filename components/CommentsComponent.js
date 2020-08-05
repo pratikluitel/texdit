@@ -51,7 +51,9 @@ function RepliesList({ files, n_reply }) {
                                     />
                                     <Text style={{ color: 'gray' }}>
                                         {' '}
-                                        {file.data.score} points
+                                        {file.data.score_hidden
+                                            ? '[score hidden]'
+                                            : file.data.score + ' points'}
                                     </Text>
                                     <Text
                                         style={{
@@ -117,7 +119,9 @@ function RenderComment({ item, navigation }) {
                         />
                         <Text style={{ color: 'gray' }}>
                             {' '}
-                            {item.data.score} points
+                            {item.data.score_hidden
+                                ? '[score hidden]'
+                                : item.data.score + ' points'}
                         </Text>
                         <Text style={{ fontSize: 13, color: '#bcbcbc' }}>
                             {' '}
