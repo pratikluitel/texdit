@@ -90,16 +90,18 @@ class Home extends Component {
                             <Icon name="filter-list" size={26} color="white" />
                         </TouchableOpacity>
                     }
+                    style={{ backgroundColor: '#2f2f2f' }}
                 >
-                    <MenuItem disabled disabledTextColor="black">
+                    <MenuItem disabled disabledTextColor="white">
                         Sort by:
                     </MenuItem>
-                    <MenuDivider />
+                    <MenuDivider color="white" />
                     <MenuItem
                         onPress={() => {
                             this.toggleTimeModal()
                             this.hideMenu()
                         }}
+                        textStyle={{ color: 'white' }}
                     >
                         Top
                     </MenuItem>
@@ -115,6 +117,7 @@ class Home extends Component {
                         return (
                             <MenuItem
                                 key={en[0]}
+                                textStyle={{ color: 'white' }}
                                 onPress={() => {
                                     this.setState({
                                         ...this.state,
