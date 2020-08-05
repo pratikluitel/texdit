@@ -71,16 +71,18 @@ class User extends Component {
                             <Icon name="filter-list" size={26} color="white" />
                         </TouchableOpacity>
                     }
+                    style={{ backgroundColor: '#2f2f2f' }}
                 >
-                    <MenuItem disabled disabledTextColor="black">
+                    <MenuItem disabled disabledTextColor="white">
                         Sort by:
                     </MenuItem>
-                    <MenuDivider />
+                    <MenuDivider color="gray" />
                     <MenuItem
                         onPress={() => {
                             this.toggleTimeModal()
                             this.hideMenu()
                         }}
+                        textStyle={{ color: 'white' }}
                     >
                         Top
                     </MenuItem>
@@ -105,6 +107,7 @@ class User extends Component {
                                     })
                                     this.hideMenu()
                                 }}
+                                textStyle={{ color: 'white' }}
                             >
                                 {en[1]}
                             </MenuItem>
@@ -305,9 +308,9 @@ class User extends Component {
                     />
                 )}
                 <Modal transparent visible={this.state.modalVisible}>
-                    <View style={styles.modal}>
-                        <Card style={styles.modalView}>
-                            <View style={styles.textBox}>
+                    <View style={styles.modalView}>
+                        <Card containerStyle={styles.searchContainer}>
+                            <View style={styles.textInputStyle}>
                                 <TextInput
                                     onChangeText={(tempuser) =>
                                         this.setState({
@@ -316,9 +319,15 @@ class User extends Component {
                                         })
                                     }
                                     value={this.state.tempuser}
+                                    style={{ color: 'white' }}
                                 />
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end',
+                                }}
+                            >
                                 <Button
                                     title="search"
                                     style={styles.openButton}
@@ -351,7 +360,7 @@ class User extends Component {
                 </Modal>
                 <Modal transparent visible={this.state.timeModalVisible}>
                     <View style={styles.timeModal}>
-                        <Card>
+                        <Card containerStyle={styles.timeContainerStyle}>
                             {Object.entries({
                                 hour: 'Hour',
                                 day: 'Day',
@@ -360,11 +369,12 @@ class User extends Component {
                                 year: 'Year',
                                 all: 'All Time',
                             }).map((en) => {
+                                // en is an array with 2 elements representing 1 key value pair for each iteration
                                 return (
                                     <TouchableHighlight
                                         key={en[0]}
                                         activeOpacity={0.6}
-                                        underlayColor="#DDDDDD"
+                                        underlayColor="#5f5f5f"
                                         onPress={() => {
                                             this.setState(
                                                 {
@@ -381,7 +391,9 @@ class User extends Component {
                                         }}
                                     >
                                         <View style={styles.timeModalOptions}>
-                                            <Text>{en[1]}</Text>
+                                            <Text style={{ color: 'white' }}>
+                                                {en[1]}
+                                            </Text>
                                         </View>
                                     </TouchableHighlight>
                                 )
@@ -399,11 +411,17 @@ class User extends Component {
 }
 
 const styles = StyleSheet.create({
-    modal: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+    modalView: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
+    searchContainer: {
+        backgroundColor: 'gray',
+        borderColor: 'gray',
+        borderRadius: 4,
+    },
+    textInputStyle: {
+        padding: 2,
+        marginBottom: 10,
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'white',
     },
     iconWrapper: {
         width: 40,
@@ -414,15 +432,19 @@ const styles = StyleSheet.create({
     timeModal: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
+        padding: 0,
+        borderRadius: 10,
     },
     timeModalOptions: {
-        padding: 20,
+        margin: 0,
+        padding: 15,
     },
-    modalView: {
-        margin: 20,
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
+    timeContainerStyle: {
+        backgroundColor: 'gray',
+        borderColor: 'gray',
+        borderRadius: 3,
+        margin: 50,
+        padding: 0,
     },
     openButton: {
         padding: 10,
