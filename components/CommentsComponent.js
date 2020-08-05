@@ -232,11 +232,12 @@ class Comments extends Component {
                             <Icon name="filter-list" size={26} color="white" />
                         </TouchableOpacity>
                     }
+                    style={{ backgroundColor: '#2f2f2f' }}
                 >
-                    <MenuItem disabled disabledTextColor="black">
+                    <MenuItem disabled disabledTextColor="white">
                         Sort by:
                     </MenuItem>
-                    <MenuDivider />
+                    <MenuDivider color="gray" />
                     {Object.entries({
                         best: 'Best',
                         top: 'Top',
@@ -260,6 +261,7 @@ class Comments extends Component {
                                     })
                                 }}
                                 key={en[0]}
+                                textStyle={{ color: 'white' }}
                             >
                                 {en[1]}
                             </MenuItem>
