@@ -6,11 +6,7 @@ Fetches the thumbnail in the frontpage, and the full picture right after you cli
 
 All replies are currently not fetched (there were some performace issues, which will be fixed soon), you can adjust the reply depth in `components/CommentsComponent.js`, just modify the `max_reply_depth` variable
 
-<div style="display: flex;justify-content: space-between; margin-bottom:20px">
-    <img src='https://i.redd.it/o6ap4za08ze51.png' width=180 />
-    <img src='https://i.redd.it/tgkdd2rq9ze51.png' width=180 />
-    <img src='https://i.redd.it/45gv2jyn7ze51.png' width=180 />
-</div>
+<img src='./assets/demo.gif' style="margin:20px">
 
 Has only the dark theme for now, more themes to be added later.
 
