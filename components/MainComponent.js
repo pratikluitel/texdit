@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements'
 import Home from './HomeComponent'
 import User from './UserComponent'
 import Comments from './CommentsComponent'
+import Webview from './WebVIewComponent'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Drawer = createDrawerNavigator()
@@ -82,7 +83,10 @@ export default class Main extends Component {
                         inactiveTintColor: '#cccccc',
                     }}
                 >
-                    {/* Sign in button */}
+                    {/* <Drawer.Screen
+                        name="Log In"
+                        component={Com(Home, 'Frontpage')}
+                    /> */}
                     <Drawer.Screen
                         name="Browse"
                         component={Com(Home, 'Frontpage')}
@@ -91,9 +95,10 @@ export default class Main extends Component {
                         name="Profile"
                         component={Com(User, 'Profile')}
                     />
-                    {/* Saved
-                    and Settings
-                    /> */}
+                    <Drawer.Screen
+                        name="Webview"
+                        component={Com(Webview, 'Webview')}
+                    />
                     {/*  A rate button 
                         and a share button */}
                 </Drawer.Navigator>
