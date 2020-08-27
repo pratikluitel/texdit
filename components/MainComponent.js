@@ -44,7 +44,7 @@ const Com = (Component, name) => ({ navigation }) => {
                     headerTintColor: 'white',
                 }}
             />
-            {name != 'Settings' ? (
+            {name != 'Settings' || name != 'Webview' ? (
                 <Stack.Screen
                     name={'Comments'}
                     component={Comments}
@@ -83,10 +83,10 @@ export default class Main extends Component {
                         inactiveTintColor: '#cccccc',
                     }}
                 >
-                    {/* <Drawer.Screen
-                        name="Log In"
-                        component={Com(Home, 'Frontpage')}
-                    /> */}
+                    <Drawer.Screen
+                        name="Login"
+                        component={Com(Webview, 'Webview')}
+                    />
                     <Drawer.Screen
                         name="Browse"
                         component={Com(Home, 'Frontpage')}
@@ -95,10 +95,7 @@ export default class Main extends Component {
                         name="Profile"
                         component={Com(User, 'Profile')}
                     />
-                    <Drawer.Screen
-                        name="Webview"
-                        component={Com(Webview, 'Webview')}
-                    />
+
                     {/*  A rate button 
                         and a share button */}
                 </Drawer.Navigator>
