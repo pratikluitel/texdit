@@ -13,7 +13,7 @@ import { Icon, Card } from 'react-native-elements'
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
-import { baseurl } from '../shared/baseUrl'
+import appInfo from '../shared/appInfo'
 
 class Home extends Component {
     constructor(props) {
@@ -187,11 +187,18 @@ class Home extends Component {
         const substring = this.state.subreddits.join('+')
         const subred =
             this.state.subreddits.length !== 0 ? '/r/' + substring : ''
-
+        const baseurl = !appInfo.loggedIn
+            ? 'https://www.reddit.com'
+            : 'https://oauth.reddit.com'
         fetch(
             baseurl +
                 subred +
-                `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
+                `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`,
+            {
+                headers: new Headers({
+                    Authorization: 'bearer ' + appInfo.accessToken,
+                }),
+            }
         )
             .then(
                 (response) => {
@@ -274,10 +281,18 @@ class Home extends Component {
             const substring = this.state.subreddits.join('+')
             const subred =
                 this.state.subreddits.length !== 0 ? '/r/' + substring : ''
+            const baseurl = !appInfo.loggedIn
+                ? 'https://www.reddit.com'
+                : 'https://oauth.reddit.com'
             fetch(
                 baseurl +
                     subred +
-                    `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`
+                    `/${this.state.filter}/.json?limit=1000&sort=${this.state.filter}&t=${this.state.time}`,
+                {
+                    headers: new Headers({
+                        Authorization: 'bearer ' + appInfo.accessToken,
+                    }),
+                }
             )
                 .then(
                     (response) => {

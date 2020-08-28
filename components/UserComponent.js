@@ -13,7 +13,7 @@ import { Icon, Card } from 'react-native-elements'
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 import PostList from './PostListComponent'
 import { Loading } from './LoadingComponent'
-import { baseurl } from '../shared/baseUrl'
+import appInfo from '../shared/appInfo'
 
 class User extends Component {
     constructor(props) {
@@ -127,6 +127,9 @@ class User extends Component {
     }
 
     componentDidMount() {
+        const baseurl = !appInfo.loggedIn
+            ? 'https://www.reddit.com'
+            : 'https://oauth.reddit.com'
         this.mounted = true
         //set header
         this.props.navigation.setOptions({
@@ -211,6 +214,9 @@ class User extends Component {
     }
 
     componentDidUpdate(_, prevState) {
+        const baseurl = !appInfo.loggedIn
+            ? 'https://www.reddit.com'
+            : 'https://oauth.reddit.com'
         //updates only if subreddit, filter or filter time is changed
         if (
             this.state.user !== prevState.user ||

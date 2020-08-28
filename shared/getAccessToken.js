@@ -4,18 +4,11 @@ import { encode } from "base-64";
 export default function getAccessToken(){
     //checks if user was already logged in,
     //if logged in use refresh token, else generate an access token
-    if(appInfo.loggedIn){
-        var details = {
-            'grant_type':'refresh_token',
-            'refresh_token':appInfo.refreshToken        
-        }
-    }
-    else{
-        var details = {
-            'grant_type':'authorization_code',
-            'code':appInfo.code,
-            'redirect_uri':appInfo.redirectUri
-        }
+
+    var details = {
+        'grant_type':'authorization_code',
+        'code':appInfo.code,
+        'redirect_uri':appInfo.redirectUri
     }
     var formBody = [];
     for (var property in details) {
@@ -54,8 +47,8 @@ export default function getAccessToken(){
         }
         appInfo.accessToken = resp.access_token
         appInfo.refreshToken = resp.refresh_token
+        console.log(resp)
         appInfo.loggedIn = true
-        console.log(appInfo.accessToken)
     },err=>console.log('Error in response',err)).catch(err =>{
         console.log('Error in fetching token',err)
     })

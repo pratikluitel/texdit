@@ -13,7 +13,7 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 import timeago from 'epoch-timeago'
 import Markdown from 'react-native-markdown-display'
 import { Loading } from './LoadingComponent'
-import { baseurl } from '../shared/baseUrl'
+import appInfo from '../shared/appInfo'
 
 var n_reply = 0
 var max_reply_depth = 3
@@ -209,6 +209,9 @@ class Comments extends Component {
     }
 
     componentDidMount() {
+        const baseurl = !appInfo.loggedIn
+            ? 'https://www.reddit.com'
+            : 'https://oauth.reddit.com'
         this.props.navigation.setOptions({
             headerTitle: (
                 <>
@@ -283,7 +286,12 @@ class Comments extends Component {
         fetch(
             baseurl +
                 this.props.route.params.item.data.permalink +
-                `.json?sort=${this.state.filter}`
+                `.json?sort=${this.state.filter}`,
+            {
+                headers: new Headers({
+                    Authorization: 'bearer ' + appInfo.accessToken,
+                }),
+            }
         )
             .then(
                 (response) => {
@@ -329,6 +337,9 @@ class Comments extends Component {
     }
 
     componentDidUpdate(_, prevState) {
+        const baseurl = !appInfo.loggedIn
+            ? 'https://www.reddit.com'
+            : 'https://oauth.reddit.com'
         //updates only if filter is changed
         if (this.state.filter != prevState.filter) {
             this.props.navigation.setOptions({
@@ -354,7 +365,12 @@ class Comments extends Component {
             fetch(
                 baseurl +
                     this.props.route.params.item.data.permalink +
-                    `.json?sort=${this.state.filter}`
+                    `.json?sort=${this.state.filter}`,
+                {
+                    headers: new Headers({
+                        Authorization: 'bearer ' + appInfo.accessToken,
+                    }),
+                }
             )
                 .then(
                     (response) => {

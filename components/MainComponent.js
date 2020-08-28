@@ -83,7 +83,7 @@ export default class Main extends Component {
             .then((url) => {
                 //the secret code comes embedded in the url of the redirect uri
                 let { _, queryParams } = Linking.parse(url)
-                if (queryParams.state === appInfo.state) {
+                if (queryParams.state === appInfo.state && !appInfo.loggedIn) {
                     appInfo.code = queryParams.code
                     getAccessToken()
                 } else if (queryParams.error) {
